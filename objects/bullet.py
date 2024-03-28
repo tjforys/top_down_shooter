@@ -1,5 +1,4 @@
 import math
-# from classes.cord import Cord
 
 
 class Bullet():
