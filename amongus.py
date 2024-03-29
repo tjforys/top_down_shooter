@@ -1,10 +1,10 @@
-# Simple pygame program
+from typing import List
 
-# Import and initialize the pygame library
 import pygame
 import time
 import os
 from objects.bullet import Bullet
+from objects.gif_background import BackgroundGIF
 from objects.player import Player
 from objects.screen import Screen
 
@@ -13,28 +13,21 @@ from classes.draw import Draw
 
 def main():
     running = True
-    gif_list = os.listdir("sprite/monday/")
+
     screen = Screen(screen_x=1000, screen_y=1000)
+    background_gif = BackgroundGIF(gif_frames_list=os.listdir("sprite/monday/"), draw_frequency_in_ms=50)
 
     amongus = pygame.image.load("sprite/image.png").convert_alpha()
     amongus = pygame.transform.scale(amongus, (40, 52))
 
     player = Player(sprite=amongus, position=[250, 250], radius=10, speed=1)
-    bullets: list[Bullet] = []
-    current_time = pygame.time.get_ticks()-100
-    i=0
+    bullets: List[Bullet] = []
     while running:
 
         screen.fill_screen((255, 255, 255))
         game_time_in_ms = pygame.time.get_ticks()
-        
-        if game_time_in_ms - current_time > 50:
-            next_image = gif_list[i % 180]
-            cat = pygame.image.load(f"sprite/monday/{next_image}").convert()
-            cat = pygame.transform.scale(cat, (1000, 1000))
-            i+=1
-            current_time = pygame.time.get_ticks()
-        screen.screen.blit(cat, (0, 0))
+
+        Draw.draw_background_gif_pic(screen, background_gif)
         screen.show_current_time(game_time_in_ms)
         player.move(screen.x, screen.y)
 
