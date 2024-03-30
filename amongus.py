@@ -55,7 +55,7 @@ def main():
         Draw.draw_player(screen.screen, player)
         # Draw a solid blue circle in the center
         pygame.display.flip()
-        # time.sleep(0.001)    
+        time.sleep(0.001)    
 
     pygame.quit()
 
