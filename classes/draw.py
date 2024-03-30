@@ -25,9 +25,10 @@ class Draw:
 
         if game_time_in_ms - gif.last_draw_time_in_ms > gif.draw_frequency_in_ms:
             gif.current_frame += 1
+            last_draw_time_to_update = True
 
         pic_to_draw = gif.frames_list[gif.current_frame % len(gif.frames_list)]
-        cat = pygame.image.load(f"sprite/monday/{pic_to_draw}").convert()
+        cat = pygame.image.load(f"sprite/monday_2/{pic_to_draw}").convert()
         cat = pygame.transform.scale(cat, (screen.x, screen.y))
         screen.screen.blit(cat, (0, 0))
 

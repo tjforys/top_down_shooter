@@ -13,9 +13,13 @@ from classes.draw import Draw
 
 def main():
     running = True
+    pygame.mixer.init()
+    sound = pygame.mixer.Sound("mp3/monday.mp3")
+    sound.set_volume(0.1)
+    sound.play(-1)
 
     screen = Screen(screen_x=1000, screen_y=1000)
-    background_gif = BackgroundGIF(gif_frames_list=os.listdir("sprite/monday/"), draw_frequency_in_ms=50)
+    background_gif = BackgroundGIF(gif_frames_list=os.listdir("sprite/monday_2/"), draw_frequency_in_ms=75)
 
     amongus = pygame.image.load("sprite/image.png").convert_alpha()
     amongus = pygame.transform.scale(amongus, (40, 52))
