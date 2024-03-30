@@ -2,8 +2,8 @@ from typing import List
 
 import pygame
 import time
-import os
 
+from classes.file_paths import FilePaths
 from objects.music import Music
 from objects.bullet import Bullet
 from objects.gif_background import BackgroundGIF
@@ -16,13 +16,13 @@ from classes.draw import Draw
 def main():
     running = True
 
-    bg_music = Music(target_file="mp3/monday.mp3", volume=0.1, loop=True)
+    bg_music = Music(target_file=FilePaths.mp3_monday, volume=0.1, loop=True)
     bg_music.play()
 
     screen = Screen(screen_x=1000, screen_y=1000)
-    background_gif = BackgroundGIF(gif_frames_list=os.listdir("sprite/monday_2/"), draw_frequency_in_ms=75)
+    background_gif = BackgroundGIF(gif_frames_folder=FilePaths.gif_monday_2, draw_frequency_in_ms=75)
 
-    amongus = pygame.image.load("sprite/image.png").convert_alpha()
+    amongus = pygame.image.load(FilePaths.png_amogus).convert_alpha()
     amongus = pygame.transform.scale(amongus, (40, 52))
 
     player = Player(sprite=amongus, position=[250, 250], radius=10, speed=1)
