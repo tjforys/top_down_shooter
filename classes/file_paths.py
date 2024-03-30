@@ -1,7 +1,7 @@
 class FilePaths:
-    gif_monday_1 = fr"sprite\monday"
-    gif_monday_2 = fr"sprite\monday_2"
+    gif_monday_1 = r"sprite\monday"
+    gif_monday_2 = r"sprite\monday_2"
 
-    png_amogus = fr"sprite\amogus.png"
+    png_amogus = r"sprite\amogus.png"
 
-    mp3_monday = fr"mp3\monday.mp3"
+    mp3_monday = r"mp3\monday.mp3"
