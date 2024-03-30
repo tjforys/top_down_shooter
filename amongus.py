@@ -3,6 +3,8 @@ from typing import List
 import pygame
 import time
 import os
+
+from objects.music import Music
 from objects.bullet import Bullet
 from objects.gif_background import BackgroundGIF
 from objects.player import Player
@@ -13,10 +15,9 @@ from classes.draw import Draw
 
 def main():
     running = True
-    pygame.mixer.init()
-    sound = pygame.mixer.Sound("mp3/monday.mp3")
-    sound.set_volume(0.1)
-    sound.play(-1)
+
+    bg_music = Music(target_file="mp3/monday.mp3", volume=0.1, loop=True)
+    bg_music.play()
 
     screen = Screen(screen_x=1000, screen_y=1000)
     background_gif = BackgroundGIF(gif_frames_list=os.listdir("sprite/monday_2/"), draw_frequency_in_ms=75)
@@ -54,7 +55,7 @@ def main():
         Draw.draw_player(screen.screen, player)
         # Draw a solid blue circle in the center
         pygame.display.flip()
-        time.sleep(0.001)    
+        # time.sleep(0.001)    
 
     pygame.quit()
 
