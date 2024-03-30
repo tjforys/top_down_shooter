@@ -26,7 +26,7 @@ class Draw:
             last_draw_time_to_update = True
 
         pic_to_draw = gif.frames_list[gif.current_frame % len(gif.frames_list)]
-        cat = pygame.image.load(f"{gif.gif_frames_folder}\{pic_to_draw}").convert()
+        cat = pygame.image.load(f"{gif.frames_folder}\{pic_to_draw}").convert()
         cat = pygame.transform.scale(cat, (screen.x, screen.y))
         screen.screen.blit(cat, (0, 0))
 
