@@ -1,2 +1,4 @@
 .idea/
 __pycache__/
+
+consts/user_consts.py

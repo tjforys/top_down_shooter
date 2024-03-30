@@ -1,12 +1,10 @@
-from typing import List
-
 import pygame
 
 from objects.gif_background import BackgroundGIF
 from objects.player import Player
+from objects.screen import Screen
 
 from classes.direction_enums import Directions
-from objects.screen import Screen
 
 
 class Draw:
@@ -28,7 +26,7 @@ class Draw:
             last_draw_time_to_update = True
 
         pic_to_draw = gif.frames_list[gif.current_frame % len(gif.frames_list)]
-        cat = pygame.image.load(f"sprite/monday_2/{pic_to_draw}").convert()
+        cat = pygame.image.load(f"{gif.gif_frames_folder}\{pic_to_draw}").convert()
         cat = pygame.transform.scale(cat, (screen.x, screen.y))
         screen.screen.blit(cat, (0, 0))
 
