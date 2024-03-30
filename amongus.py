@@ -3,6 +3,8 @@ from typing import List
 import pygame
 import time
 import os
+
+from objects.music import Music
 from objects.bullet import Bullet
 from objects.gif_background import BackgroundGIF
 from objects.player import Player
@@ -14,8 +16,11 @@ from classes.draw import Draw
 def main():
     running = True
 
+    bg_music = Music(target_file="mp3/monday.mp3", volume=0.1, loop=True)
+    bg_music.play()
+
     screen = Screen(screen_x=1000, screen_y=1000)
-    background_gif = BackgroundGIF(gif_frames_list=os.listdir("sprite/monday/"), draw_frequency_in_ms=50)
+    background_gif = BackgroundGIF(gif_frames_list=os.listdir("sprite/monday_2/"), draw_frequency_in_ms=75)
 
     amongus = pygame.image.load("sprite/image.png").convert_alpha()
     amongus = pygame.transform.scale(amongus, (40, 52))
