@@ -14,7 +14,7 @@ class Screen():
     
 
     def show_current_time(self, current_time_in_ms: int) -> None:
-        text_surface = self.font.render(f'{current_time_in_ms/1000}s', False, (0, 0, 0))
+        text_surface = self.font.render(f'{current_time_in_ms/1000}s', False, (255, 255, 255))
         text_rect = text_surface.get_rect(center=(self.x/2, 15))
         self.screen.blit(text_surface, text_rect)
 

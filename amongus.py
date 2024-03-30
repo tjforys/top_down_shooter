@@ -1,10 +1,12 @@
-# Simple pygame program
+from typing import List
 
-# Import and initialize the pygame library
 import pygame
 import time
+import os
 
+from objects.music import Music
 from objects.bullet import Bullet
+from objects.gif_background import BackgroundGIF
 from objects.player import Player
 from objects.screen import Screen
 
@@ -14,20 +16,24 @@ from classes.draw import Draw
 def main():
     running = True
 
+    bg_music = Music(target_file="mp3/monday.mp3", volume=0.1, loop=True)
+    bg_music.play()
+
     screen = Screen(screen_x=1000, screen_y=1000)
+    background_gif = BackgroundGIF(gif_frames_list=os.listdir("sprite/monday_2/"), draw_frequency_in_ms=75)
 
     amongus = pygame.image.load("sprite/image.png").convert_alpha()
     amongus = pygame.transform.scale(amongus, (40, 52))
 
     player = Player(sprite=amongus, position=[250, 250], radius=10, speed=1)
-    bullets: list[Bullet] = []
-
-
+    bullets: List[Bullet] = []
     while running:
+
         screen.fill_screen((255, 255, 255))
         game_time_in_ms = pygame.time.get_ticks()
-        screen.show_current_time(game_time_in_ms)
 
+        Draw.draw_background_gif_pic(screen, background_gif)
+        screen.show_current_time(game_time_in_ms)
         player.move(screen.x, screen.y)
 
         for event in pygame.event.get():
@@ -40,7 +46,7 @@ def main():
 
         for bullet in bullets:
             print(bullet)
-            pygame.draw.circle(screen.screen, (0, 0, 0), (bullet.position[0], bullet.position[1]), 75)
+            pygame.draw.circle(screen.screen, (0, 0, 0), (bullet.position[0], bullet.position[1]), 40)
             bullet.move()
         bullets = list(filter(lambda b: b.is_in_bounds(screen.x, screen.y), bullets))
         if not bullets:
@@ -50,6 +56,7 @@ def main():
         # Draw a solid blue circle in the center
         pygame.display.flip()
         time.sleep(0.001)    
+
     pygame.quit()
 
 
