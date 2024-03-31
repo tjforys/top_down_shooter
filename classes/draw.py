@@ -3,7 +3,7 @@ import pygame
 from objects.gif_background import BackgroundGIF
 from objects.player import Player
 from objects.screen import Screen
-
+from objects.enemy import Enemy
 from classes.direction_enums import Directions
 
 
@@ -32,6 +32,10 @@ class Draw:
 
         if last_draw_time_to_update:
             gif.last_draw_time_in_ms = pygame.time.get_ticks()
+
+    @staticmethod
+    def draw_enemy(screen: Screen, enemy: Enemy):
+        screen.screen.blit(enemy.sprite, (enemy.pos_x, enemy.pos_y))
 
 
 
