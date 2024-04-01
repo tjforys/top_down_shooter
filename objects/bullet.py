@@ -1,4 +1,5 @@
 import math
+from typing import List
 
 
 class Bullet():
@@ -8,7 +9,7 @@ class Bullet():
         self.radius = radius
         self._speed: list = self._get_bullet_speed(speed)
         
-    def _get_bullet_speed(self, speed: float) -> list[float]:
+    def _get_bullet_speed(self, speed: float) -> List[float]:
         whole_distance = math.dist(self.position, self._dest_pos)
         distance_x = self._dest_pos[0] - self.position[0]
         distance_y = self._dest_pos[1] - self.position[1]

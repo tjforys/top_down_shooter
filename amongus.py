@@ -1,7 +1,7 @@
-from typing import List
-
 import pygame
 import time
+
+from typing import List
 
 from objects.music import Music
 from objects.bullet import Bullet
@@ -14,7 +14,7 @@ from classes.draw import Draw
 from classes.file_paths import FilePaths
 
 
-def handle_enemies(screen, enemies: list[Enemy], bullets: list[Bullet], player: Player) -> list[Enemy]:
+def handle_enemies(screen, enemies: List[Enemy], bullets: List[Bullet], player: Player) -> List[Enemy]:
     for enemy_obj in enemies:
         enemy_obj.move(player.position[0], player.position[1])
         for bullet in reversed(bullets):
@@ -24,15 +24,15 @@ def handle_enemies(screen, enemies: list[Enemy], bullets: list[Bullet], player: 
     return enemies
 
 
-def delete_hit_bullets(bullets: list[Bullet], enemies: list[Enemy]) -> list[Bullet]:
+def delete_hit_bullets(bullets: List[Bullet], enemies: List[Enemy]) -> List[Bullet]:
     return list(filter(lambda b: all([not enemy_obj.is_hit(b) for enemy_obj in enemies]), bullets))
 
 
-def delete_dead_enemies(enemies: list[Enemy]) -> list[Enemy]:
+def delete_dead_enemies(enemies: List[Enemy]) -> List[Enemy]:
     return list(filter(lambda e: e.health>0, enemies))
 
 
-def filter_out_of_bounds_bullets(screen, bullets: list[Bullet]) -> list[Bullet]:
+def filter_out_of_bounds_bullets(screen, bullets: List[Bullet]) -> List[Bullet]:
     return list(filter(lambda b: b.is_in_bounds(screen.x, screen.y), bullets))
     
 
