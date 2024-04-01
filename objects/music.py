@@ -3,7 +3,7 @@ class Music:
     def __init__(self, target_file: str, volume: float, loop: bool):
         self._target_file = target_file
         self.volume = volume
-        self._loop = -1 if loop else None
+        self._loop = -1 if loop else 0
         pygame.mixer.init()
 
 

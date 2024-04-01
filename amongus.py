@@ -41,6 +41,7 @@ def main():
     running = True
 
     bg_music = Music(target_file=FilePaths.mp3_monday, volume=0.1, loop=True)
+    amongus_sfx = Music(target_file="mp3/amongus.mp3", volume= 0.1, loop=False)
     bg_music.play()
 
     screen = Screen(screen_x=500, screen_y=500)
@@ -71,6 +72,7 @@ def main():
         for event in pygame.event.get():
             if event.type == pygame.MOUSEBUTTONDOWN:
                 mouse_x, mouse_y = pygame.mouse.get_pos()
+                amongus_sfx.play()
                 bullets.append(Bullet(pos_x=player.position[0], pos_y=player.position[1], dest_x=mouse_x, dest_y=mouse_y, speed=1, radius= 40))
 
             if event.type == pygame.QUIT:
