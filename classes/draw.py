@@ -38,5 +38,9 @@ class Draw:
         screen.screen.blit(enemy.sprite, (enemy.pos_x, enemy.pos_y))
 
 
+    @staticmethod
+    def draw_cursor(screen: Screen, cursor_img, cursor_rect):
+        cursor_rect.center = pygame.mouse.get_pos()
+        screen.screen.blit(cursor_img, cursor_rect)
 
 
