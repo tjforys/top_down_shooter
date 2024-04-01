@@ -2,10 +2,10 @@ import math
 
 
 class Bullet():
-    def __init__(self, pos_x: int, pos_y: int, dest_x: int, dest_y: int, speed: float):
+    def __init__(self, pos_x: int, pos_y: int, dest_x: int, dest_y: int, speed: float, radius: int):
         self.position: list = [pos_x, pos_y]
         self._dest_pos: list = [dest_x, dest_y]
-
+        self.radius = radius
         self._speed: list = self._get_bullet_speed(speed)
         
     def _get_bullet_speed(self, speed: float) -> list[float]:
