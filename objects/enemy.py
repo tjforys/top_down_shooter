@@ -19,7 +19,7 @@ class Enemy:
         speed_x = self.speed*distance_x/whole_distance
         speed_y = self.speed*distance_y/whole_distance
         #cos zrobic jak sie nachodza bo wtedy crashuje bo dzieilisz przez 0
-        
+
         self.pos_x += speed_x
         self.pos_y += speed_y
 
@@ -29,11 +29,10 @@ class Enemy:
             if bullet.position[1] - bullet.radius < self.pos_y +self.hitbox[1] and bullet.position[1] + bullet.radius > self.pos_y: 
                 return True          
         return False
-    
+
 
     def take_damage(self, amount: float):
         self.health -= amount
         if self.health<1:
             del self
-
 
