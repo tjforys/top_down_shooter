@@ -1,6 +1,7 @@
 import pygame
 import time
 
+
 from typing import List
 
 from objects.music import Music
@@ -50,11 +51,13 @@ def main():
 
     enemy_sprite = pygame.image.load(FilePaths.png_enemy_sprite_black_impostor).convert_alpha()
     enemy_sprite = pygame.transform.scale(enemy_sprite, (40, 52))
-    
     player = Player(sprite=amongus, position=[250, 250], radius=10, speed=1)
+
     bullets: List[Bullet] = []
+
     enemies: List[Enemy] = [Enemy(sprite= enemy_sprite, pos_x=1000, pos_y=1000, speed=0.5, health=10),
                             Enemy(sprite= enemy_sprite, pos_x=0, pos_y=0, speed=0.5, health=10)]
+
     while running:
 
         screen.fill_screen((255, 255, 255))
@@ -81,7 +84,6 @@ def main():
             print("no more boolets")
  
         Draw.draw_player(screen.screen, player)
-
         enemies = handle_enemies(screen=screen,
                                  enemies=enemies,
                                  bullets=bullets,
@@ -89,6 +91,7 @@ def main():
 
         bullets = delete_hit_bullets(bullets=bullets, enemies=enemies)
         enemies = delete_dead_enemies(enemies=enemies)
+
         # Draw a solid blue circle in the center
         pygame.display.flip()
         time.sleep(0.001)    
