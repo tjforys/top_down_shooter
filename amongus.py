@@ -40,12 +40,18 @@ def filter_out_of_bounds_bullets(screen, bullets: List[Bullet]) -> List[Bullet]:
 def main():
     running = True
 
+    pygame.mouse.set_visible(False)
+
     bg_music = Music(target_file=FilePaths.mp3_monday, volume=0.1, loop=True)
     amongus_sfx = Music(target_file="mp3/amongus.mp3", volume= 0.1, loop=False)
     bg_music.play()
 
     screen = Screen(screen_x=500, screen_y=500)
     background_gif = BackgroundGIF(gif_frames_folder=FilePaths.gif_monday_2, draw_frequency_in_ms=75)
+
+    cursor = pygame.image.load(FilePaths.png_cursor).convert_alpha()
+    cursor = pygame.transform.scale(cursor, (32, 32))
+    cursor_img_rect = cursor.get_rect()
 
     amongus = pygame.image.load(FilePaths.png_amogus).convert_alpha()
     amongus = pygame.transform.scale(amongus, (40, 52))
@@ -67,6 +73,7 @@ def main():
 
         Draw.draw_background_gif_pic(screen, background_gif)
         screen.show_current_time(game_time_in_ms)
+        Draw.draw_cursor(screen, cursor, cursor_img_rect)
         player.move(screen.x, screen.y)
 
         for event in pygame.event.get():
