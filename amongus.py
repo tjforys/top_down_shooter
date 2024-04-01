@@ -51,6 +51,7 @@ def main():
 
     enemy_sprite = pygame.image.load(FilePaths.png_enemy_sprite_black_impostor).convert_alpha()
     enemy_sprite = pygame.transform.scale(enemy_sprite, (40, 52))
+    
     player = Player(sprite=amongus, position=[250, 250], radius=10, speed=1)
 
     bullets: List[Bullet] = []
@@ -91,7 +92,6 @@ def main():
 
         bullets = delete_hit_bullets(bullets=bullets, enemies=enemies)
         enemies = delete_dead_enemies(enemies=enemies)
-
         # Draw a solid blue circle in the center
         pygame.display.flip()
         time.sleep(0.001)    
