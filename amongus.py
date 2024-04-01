@@ -1,6 +1,7 @@
 import pygame
 import time
 
+
 from typing import List
 
 from objects.music import Music
@@ -40,6 +41,7 @@ def main():
     running = True
 
     bg_music = Music(target_file=FilePaths.mp3_monday, volume=0.1, loop=True)
+    amongus_sfx = Music(target_file="mp3/amongus.mp3", volume= 0.1, loop=False)
     bg_music.play()
 
     screen = Screen(screen_x=500, screen_y=500)
@@ -52,9 +54,12 @@ def main():
     enemy_sprite = pygame.transform.scale(enemy_sprite, (40, 52))
     
     player = Player(sprite=amongus, position=[250, 250], radius=10, speed=1)
+
     bullets: List[Bullet] = []
+
     enemies: List[Enemy] = [Enemy(sprite= enemy_sprite, pos_x=1000, pos_y=1000, speed=0.5, health=10),
                             Enemy(sprite= enemy_sprite, pos_x=0, pos_y=0, speed=0.5, health=10)]
+
     while running:
 
         screen.fill_screen((255, 255, 255))
@@ -67,6 +72,7 @@ def main():
         for event in pygame.event.get():
             if event.type == pygame.MOUSEBUTTONDOWN:
                 mouse_x, mouse_y = pygame.mouse.get_pos()
+                amongus_sfx.play()
                 bullets.append(Bullet(pos_x=player.position[0], pos_y=player.position[1], dest_x=mouse_x, dest_y=mouse_y, speed=1, radius= 40))
 
             if event.type == pygame.QUIT:
@@ -81,7 +87,6 @@ def main():
             print("no more boolets")
  
         Draw.draw_player(screen.screen, player)
-
         enemies = handle_enemies(screen=screen,
                                  enemies=enemies,
                                  bullets=bullets,
