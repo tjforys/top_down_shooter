@@ -31,7 +31,7 @@ class Enemy:
         return False
     
 
-    def take_damage(self, amount):
+    def take_damage(self, amount: float):
         self.health -= amount
         if self.health<1:
             del self

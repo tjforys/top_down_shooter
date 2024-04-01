@@ -14,24 +14,47 @@ from classes.draw import Draw
 from classes.file_paths import FilePaths
 
 
+def handle_enemies(screen, enemies: list[Enemy], bullets: list[Bullet], player: Player) -> list[Enemy]:
+    for enemy_obj in enemies:
+        enemy_obj.move(player.position[0], player.position[1])
+        for bullet in reversed(bullets):
+            if enemy_obj.is_hit(bullet):
+                enemy_obj.take_damage(1)
+        Draw.draw_enemy(screen=screen, enemy=enemy_obj)
+    return enemies
+
+
+def delete_hit_bullets(bullets: list[Bullet], enemies: list[Enemy]) -> list[Bullet]:
+    return list(filter(lambda b: all([not enemy_obj.is_hit(b) for enemy_obj in enemies]), bullets))
+
+
+def delete_dead_enemies(enemies: list[Enemy]) -> list[Enemy]:
+    return list(filter(lambda e: e.health>0, enemies))
+
+
+def filter_out_of_bounds_bullets(screen, bullets: list[Bullet]) -> list[Bullet]:
+    return list(filter(lambda b: b.is_in_bounds(screen.x, screen.y), bullets))
+    
+
 def main():
     running = True
 
     bg_music = Music(target_file=FilePaths.mp3_monday, volume=0.1, loop=True)
     bg_music.play()
 
-    screen = Screen(screen_x=1000, screen_y=1000)
+    screen = Screen(screen_x=500, screen_y=500)
     background_gif = BackgroundGIF(gif_frames_folder=FilePaths.gif_monday_2, draw_frequency_in_ms=75)
 
     amongus = pygame.image.load(FilePaths.png_amogus).convert_alpha()
     amongus = pygame.transform.scale(amongus, (40, 52))
-    enemy_sprite = pygame.image.load(r"sprite/enemy.png").convert_alpha()
+
+    enemy_sprite = pygame.image.load(FilePaths.png_enemy_sprite_black_impostor).convert_alpha()
     enemy_sprite = pygame.transform.scale(enemy_sprite, (40, 52))
+    
     player = Player(sprite=amongus, position=[250, 250], radius=10, speed=1)
-    enemy = Enemy(sprite= enemy_sprite, pos_x=1000, pos_y=1000, speed=0.5, health=10)
-    enemy_2 = Enemy(sprite= enemy_sprite, pos_x=0, pos_y=0, speed=0.5, health=10)
     bullets: List[Bullet] = []
-    enemies: List[Enemy] = [enemy, enemy_2]
+    enemies: List[Enemy] = [Enemy(sprite= enemy_sprite, pos_x=1000, pos_y=1000, speed=0.5, health=10),
+                            Enemy(sprite= enemy_sprite, pos_x=0, pos_y=0, speed=0.5, health=10)]
     while running:
 
         screen.fill_screen((255, 255, 255))
@@ -53,19 +76,19 @@ def main():
             print(bullet)
             pygame.draw.circle(screen.screen, (0, 0, 0), (bullet.position[0], bullet.position[1]), bullet.radius)
             bullet.move()
-        bullets = list(filter(lambda b: b.is_in_bounds(screen.x, screen.y), bullets))
+        bullets = filter_out_of_bounds_bullets(screen=screen, bullets=bullets)
         if not bullets:
             print("no more boolets")
  
         Draw.draw_player(screen.screen, player)
-        for enemy_obj in enemies:
-            for bullet in reversed(bullets):
-                if enemy_obj.is_hit(bullet):
-                    enemy_obj.take_damage(1)
-            Draw.draw_enemy(screen=screen, enemy=enemy_obj)
-            enemy_obj.move(player.position[0], player.position[1])
-        bullets = list(filter(lambda b: all([not enemy_obj.is_hit(b) for enemy_obj in enemies]), bullets))
-        enemies = list(filter(lambda e: e.health>0, enemies))
+
+        enemies = handle_enemies(screen=screen,
+                                 enemies=enemies,
+                                 bullets=bullets,
+                                 player=player)
+
+        bullets = delete_hit_bullets(bullets=bullets, enemies=enemies)
+        enemies = delete_dead_enemies(enemies=enemies)
         # Draw a solid blue circle in the center
         pygame.display.flip()
         time.sleep(0.001)    
