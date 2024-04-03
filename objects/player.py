@@ -27,4 +27,24 @@ class Player():
         if keys[pygame.K_d] and self.position[0] < area_x:
             self.position[0] += self._speed
             self.rotation = Directions.RIGHT
+
+        if self.position[0] < 0:
+            self.position[0] = 0
+        if self.position[0] > area_x:
+            self.position[0] = area_x
+        if self.position[1] < 0:
+            self.position[1] = 0
+        if self.position[1] > area_y:
+            self.position[1] = area_y
+
+    def dash(self, dash_distance):
+        keys = pygame.key.get_pressed()
+        if keys[pygame.K_a]:
+            self.position[0] -= dash_distance
+        if keys[pygame.K_w]:
+            self.position[1] -= dash_distance
+        if keys[pygame.K_d]:
+            self.position[0] += dash_distance
+        if keys[pygame.K_s]:
+            self.position[1] += dash_distance       
             
