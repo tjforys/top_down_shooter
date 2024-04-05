@@ -81,6 +81,10 @@ def main():
                 mouse_x, mouse_y = pygame.mouse.get_pos()
                 amongus_sfx.play()
                 bullets.append(Bullet(pos_x=player.position[0], pos_y=player.position[1], dest_x=mouse_x, dest_y=mouse_y, speed=1, radius= 40))
+            
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_LSHIFT:
+                    player.dash(dash_distance=100, area_x=screen.x, area_y=screen.y)
 
             if event.type == pygame.QUIT:
                 running = False
