@@ -84,7 +84,7 @@ def main():
             
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_LSHIFT:
-                    player.dash(dash_distance=100)
+                    player.dash(dash_distance=100, area_x=screen.x, area_y=screen.y)
 
             if event.type == pygame.QUIT:
                 running = False
