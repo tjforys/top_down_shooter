@@ -4,6 +4,7 @@ import pygame
 
 from classes.colors import Color
 from classes.direction_enums import Directions
+from objects.bullet import Bullet
 from objects.enemy import Enemy
 from objects.gif_background import BackgroundGIF
 from objects.player import Player
@@ -26,7 +27,18 @@ class Screen:
         text_rect = text_surface.get_rect(center=(self.x/2, 15))
         self.screen.blit(text_surface, text_rect)
 
-    
+
+    def draw_everything(self, player, bullets, enemies, background_gif, game_time_in_ms, cursor, cursor_img_rect):
+        self.fill_screen(Color.white)
+        self.draw_background_gif_pic(background_gif)
+        self.show_current_time(game_time_in_ms)
+        self.draw_cursor(cursor, cursor_img_rect)
+        self.draw_player(player)
+        self.draw_enemies(enemies)
+        self.draw_bullets(bullets)
+
+        pygame.display.flip()
+
     def fill_screen(self, color: tuple):
         self.screen.fill(color)
 
@@ -58,6 +70,11 @@ class Screen:
     def draw_enemies(self, enemies: List[Enemy]):
         for enemy in enemies:
             self.screen.blit(enemy.sprite, (enemy.pos_x, enemy.pos_y))
+
+
+    def draw_bullets(self, bullets: List[Bullet]):
+        for bullet in bullets:
+            pygame.draw.circle(self.screen, Color.black, (bullet.position[0], bullet.position[1]), bullet.radius)
 
 
     def draw_cursor(self, cursor_img, cursor_rect):
