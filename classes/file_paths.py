@@ -7,4 +7,5 @@ class FilePaths:
     png_cursor = r"sprite\amogus_cursor.png"
 
     mp3_monday = r"mp3\monday.mp3"
+    mp3_amongus = r"mp3\amongus.mp3"
 

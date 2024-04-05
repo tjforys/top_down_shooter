@@ -1,7 +1,9 @@
 import pygame
 
+from classes.colors import Color
 
-class Screen():
+
+class Screen:
     def __init__(self, screen_x, screen_y):
         self.x = screen_x
         self.y = screen_y
@@ -14,7 +16,7 @@ class Screen():
     
 
     def show_current_time(self, current_time_in_ms: int) -> None:
-        text_surface = self.font.render(f'{current_time_in_ms/1000}s', False, (255, 255, 255))
+        text_surface = self.font.render(f'{current_time_in_ms/1000}s', False, Color.white)
         text_rect = text_surface.get_rect(center=(self.x/2, 15))
         self.screen.blit(text_surface, text_rect)
 

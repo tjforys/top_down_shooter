@@ -11,6 +11,7 @@ from objects.player import Player
 from objects.screen import Screen
 from objects.enemy import Enemy
 
+from classes.colors import Color
 from classes.draw import Draw
 from classes.file_paths import FilePaths
 
@@ -30,7 +31,7 @@ def delete_hit_bullets(bullets: List[Bullet], enemies: List[Enemy]) -> List[Bull
 
 
 def delete_dead_enemies(enemies: List[Enemy]) -> List[Enemy]:
-    return list(filter(lambda e: e.health>0, enemies))
+    return list(filter(lambda e: e.health > 0, enemies))
 
 
 def filter_out_of_bounds_bullets(screen, bullets: List[Bullet]) -> List[Bullet]:
@@ -43,7 +44,7 @@ def main():
     pygame.mouse.set_visible(False)
 
     bg_music = Music(target_file=FilePaths.mp3_monday, volume=0.1, loop=True)
-    amongus_sfx = Music(target_file="mp3/amongus.mp3", volume= 0.1, loop=False)
+    amongus_sfx = Music(target_file=FilePaths.mp3_amongus, volume=0.1, loop=False)
     bg_music.play()
 
     screen = Screen(screen_x=500, screen_y=500)
@@ -63,17 +64,17 @@ def main():
 
     bullets: List[Bullet] = []
 
-    enemies: List[Enemy] = [Enemy(sprite= enemy_sprite, pos_x=1000, pos_y=1000, speed=0.5, health=10),
-                            Enemy(sprite= enemy_sprite, pos_x=0, pos_y=0, speed=0.5, health=10)]
+    enemies: List[Enemy] = [Enemy(sprite=enemy_sprite, pos_x=1000, pos_y=1000, speed=0.5, health=10),
+                            Enemy(sprite=enemy_sprite, pos_x=0, pos_y=0, speed=0.5, health=10)]
 
     while running:
-
-        screen.fill_screen((255, 255, 255))
         game_time_in_ms = pygame.time.get_ticks()
 
+        screen.fill_screen(Color.white)
         Draw.draw_background_gif_pic(screen, background_gif)
         screen.show_current_time(game_time_in_ms)
         Draw.draw_cursor(screen, cursor, cursor_img_rect)
+
         player.move(screen.x, screen.y)
 
         for event in pygame.event.get():
@@ -91,7 +92,7 @@ def main():
 
         for bullet in bullets:
             print(bullet)
-            pygame.draw.circle(screen.screen, (0, 0, 0), (bullet.position[0], bullet.position[1]), bullet.radius)
+            pygame.draw.circle(screen.screen, Color.black, (bullet.position[0], bullet.position[1]), bullet.radius)
             bullet.move()
         bullets = filter_out_of_bounds_bullets(screen=screen, bullets=bullets)
         if not bullets:
