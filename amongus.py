@@ -12,26 +12,12 @@ from objects.screen import Screen
 from objects.enemy import Enemy
 
 from classes.colors import Color
-from classes.draw import Draw
 from classes.file_paths import FilePaths
-
-
-def handle_enemies(screen, enemies: List[Enemy], bullets: List[Bullet], player: Player) -> List[Enemy]:
-    for enemy_obj in enemies:
-        enemy_obj.move(player.position[0], player.position[1])
-        for bullet in reversed(bullets):
-            if enemy_obj.is_hit(bullet):
-                enemy_obj.take_damage(1)
-        Draw.draw_enemy(screen=screen, enemy=enemy_obj)
-    return enemies
+from utils.enemy_utils import EnemyUtils
 
 
 def delete_hit_bullets(bullets: List[Bullet], enemies: List[Enemy]) -> List[Bullet]:
     return list(filter(lambda b: all([not enemy_obj.is_hit(b) for enemy_obj in enemies]), bullets))
-
-
-def delete_dead_enemies(enemies: List[Enemy]) -> List[Enemy]:
-    return list(filter(lambda e: e.health > 0, enemies))
 
 
 def filter_out_of_bounds_bullets(screen, bullets: List[Bullet]) -> List[Bullet]:
@@ -70,18 +56,13 @@ def main():
     while running:
         game_time_in_ms = pygame.time.get_ticks()
 
-        screen.fill_screen(Color.white)
-        Draw.draw_background_gif_pic(screen, background_gif)
-        screen.show_current_time(game_time_in_ms)
-        Draw.draw_cursor(screen, cursor, cursor_img_rect)
-
         player.move(screen.x, screen.y)
 
         for event in pygame.event.get():
             if event.type == pygame.MOUSEBUTTONDOWN:
                 mouse_x, mouse_y = pygame.mouse.get_pos()
                 amongus_sfx.play()
-                bullets.append(Bullet(pos_x=player.position[0], pos_y=player.position[1], dest_x=mouse_x, dest_y=mouse_y, speed=1, radius= 40))
+                bullets.append(Bullet(pos_x=player.position[0], pos_y=player.position[1], dest_x=mouse_x, dest_y=mouse_y, speed=1, radius=40))
             
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_LSHIFT:
@@ -97,15 +78,18 @@ def main():
         bullets = filter_out_of_bounds_bullets(screen=screen, bullets=bullets)
         if not bullets:
             print("no more boolets")
- 
-        Draw.draw_player(screen.screen, player)
-        enemies = handle_enemies(screen=screen,
-                                 enemies=enemies,
-                                 bullets=bullets,
-                                 player=player)
+
+        enemies = EnemyUtils.handle_enemies(enemies=enemies, bullets=bullets, player=player)
 
         bullets = delete_hit_bullets(bullets=bullets, enemies=enemies)
-        enemies = delete_dead_enemies(enemies=enemies)
+
+        screen.fill_screen(Color.white)
+        screen.draw_background_gif_pic(background_gif)
+        screen.show_current_time(game_time_in_ms)
+        screen.draw_cursor(cursor, cursor_img_rect)
+        screen.draw_player(player)
+        screen.draw_enemies(enemies)
+
         # Draw a solid blue circle in the center
         pygame.display.flip()
         time.sleep(0.001)    
