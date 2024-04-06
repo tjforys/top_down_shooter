@@ -11,18 +11,10 @@ from objects.player import Player
 from objects.screen import Screen
 from objects.enemy import Enemy
 
-from classes.colors import Color
 from classes.file_paths import FilePaths
+from utils.bullet_utils import BulletUtils
 from utils.enemy_utils import EnemyUtils
 
-
-def delete_hit_bullets(bullets: List[Bullet], enemies: List[Enemy]) -> List[Bullet]:
-    return list(filter(lambda b: all([not enemy_obj.is_hit(b) for enemy_obj in enemies]), bullets))
-
-
-def filter_out_of_bounds_bullets(screen, bullets: List[Bullet]) -> List[Bullet]:
-    return list(filter(lambda b: b.is_in_bounds(screen.x, screen.y), bullets))
-    
 
 def main():
     running = True
@@ -71,26 +63,22 @@ def main():
             if event.type == pygame.QUIT:
                 running = False
 
-        for bullet in bullets:
-            print(bullet)
-            pygame.draw.circle(screen.screen, Color.black, (bullet.position[0], bullet.position[1]), bullet.radius)
-            bullet.move()
-        bullets = filter_out_of_bounds_bullets(screen=screen, bullets=bullets)
-        if not bullets:
-            print("no more boolets")
 
-        enemies = EnemyUtils.handle_enemies(enemies=enemies, bullets=bullets, player=player)
+        bullets = BulletUtils.handle_bullets(screen, bullets)
+        hit_bullets = BulletUtils.get_hit_bullets(bullets=bullets, enemies=enemies)
+        bullets = BulletUtils.delete_hit_bullets(bullets, hit_bullets)
 
-        bullets = delete_hit_bullets(bullets=bullets, enemies=enemies)
+        enemies = EnemyUtils.handle_enemies(enemies=enemies, bullets=hit_bullets, player=player)
 
-        screen.fill_screen(Color.white)
-        screen.draw_background_gif_pic(background_gif)
-        screen.show_current_time(game_time_in_ms)
-        screen.draw_cursor(cursor, cursor_img_rect)
-        screen.draw_player(player)
-        screen.draw_enemies(enemies)
 
         # Draw a solid blue circle in the center
+        screen.draw_everything(player=player,
+                               enemies=enemies,
+                               bullets=bullets,
+                               background_gif=background_gif,
+                               cursor=cursor,
+                               cursor_img_rect=cursor_img_rect,
+                               game_time_in_ms=game_time_in_ms)
         pygame.display.flip()
         time.sleep(0.001)    
 
