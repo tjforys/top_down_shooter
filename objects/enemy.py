@@ -1,6 +1,7 @@
 import math
 from objects.bullet import Bullet
 
+
 class Enemy:
     def __init__(self, sprite, pos_x: int, pos_y: int, speed: float, health: int):
         self.sprite = sprite
@@ -25,14 +26,14 @@ class Enemy:
 
 
     def is_hit(self, bullet: Bullet):
-        if bullet.position[0] - bullet.radius < self.pos_x +self.hitbox[0] and bullet.position[0] + bullet.radius > self.pos_x:
-            if bullet.position[1] - bullet.radius < self.pos_y +self.hitbox[1] and bullet.position[1] + bullet.radius > self.pos_y: 
+        if bullet.position[0] - bullet.radius < self.pos_x + self.hitbox[0] and bullet.position[0] + bullet.radius > self.pos_x:
+            if bullet.position[1] - bullet.radius < self.pos_y + self.hitbox[1] and bullet.position[1] + bullet.radius > self.pos_y:
                 return True          
         return False
 
 
     def take_damage(self, amount: float):
         self.health -= amount
-        if self.health<1:
+        if self.health < 1:
             del self
 
