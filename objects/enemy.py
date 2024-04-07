@@ -1,15 +1,19 @@
 import math
+
+import pygame
+
+from classes.file_paths import FilePaths
 from objects.bullet import Bullet
 
 
 class Enemy:
-    def __init__(self, sprite, pos_x: int, pos_y: int, speed: float, health: int):
+    def __init__(self, sprite, pos_x: int, pos_y: int, speed: float, health: int, hitbox: tuple):
         self.sprite = sprite
         self.pos_x = pos_x
         self.pos_y = pos_y
         self.speed = speed
         self.health = health
-        self.hitbox = (20, 40)
+        self.hitbox = hitbox
 
 
     def move(self, player_x: int, player_y: int):
@@ -36,4 +40,19 @@ class Enemy:
         self.health -= amount
         if self.health < 1:
             del self
+
+
+class BlackAmogus(Enemy):
+    def __init__(self, pos_x, pos_y):
+        black_impostor = pygame.image.load(FilePaths.png_enemy_sprite_black_impostor).convert_alpha()
+        black_impostor = pygame.transform.scale(black_impostor, (40, 52))
+
+        super().__init__(
+            sprite=black_impostor,
+            health=10,
+            pos_x=pos_x,
+            pos_y=pos_y,
+            speed=0.5,
+            hitbox=(20, 40)
+        )
 

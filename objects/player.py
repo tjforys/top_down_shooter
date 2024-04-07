@@ -1,12 +1,16 @@
 import pygame
 
 from classes.direction_enums import Directions
+from classes.file_paths import FilePaths
 from utils.movement_utils import Movement
 
 
 class Player:
-    def __init__(self, sprite, position: list, radius: int, speed: float):
-        self.sprite = sprite
+    def __init__(self, position: list, radius: int, speed: float):
+        amongus = pygame.image.load(FilePaths.png_amogus).convert_alpha()
+        amongus = pygame.transform.scale(amongus, (40, 52))
+
+        self.sprite = amongus
         self.rotation = Directions.RIGHT
         self.position = position
         self.radius = radius
