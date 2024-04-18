@@ -4,12 +4,13 @@ import time
 
 from typing import List
 
+from objects.cursor import Cursor
 from objects.music import Music
 from objects.bullet import Bullet
 from objects.gif_background import BackgroundGIF
 from objects.player import Player
 from objects.screen import Screen
-from objects.enemy import Enemy
+from objects.enemy import Enemy, BlackAmogus
 
 from classes.file_paths import FilePaths
 from utils.bullet_utils import BulletUtils
@@ -21,29 +22,18 @@ def main():
 
     pygame.mouse.set_visible(False)
 
-    bg_music = Music(target_file=FilePaths.mp3_monday, volume=0.1, loop=True)
     amongus_sfx = Music(target_file=FilePaths.mp3_amongus, volume=0.1, loop=False)
+    bg_music = Music(target_file=FilePaths.mp3_monday, volume=0.1, loop=True)
     bg_music.play()
 
     screen = Screen(screen_x=500, screen_y=500)
     background_gif = BackgroundGIF(gif_frames_folder=FilePaths.gif_monday_2, draw_frequency_in_ms=75)
-
-    cursor = pygame.image.load(FilePaths.png_cursor).convert_alpha()
-    cursor = pygame.transform.scale(cursor, (32, 32))
-    cursor_img_rect = cursor.get_rect()
-
-    amongus = pygame.image.load(FilePaths.png_amogus).convert_alpha()
-    amongus = pygame.transform.scale(amongus, (40, 52))
-
-    enemy_sprite = pygame.image.load(FilePaths.png_enemy_sprite_black_impostor).convert_alpha()
-    enemy_sprite = pygame.transform.scale(enemy_sprite, (40, 52))
-    
-    player = Player(sprite=amongus, position=[250, 250], radius=10, speed=1)
+    cursor = Cursor()
+    player = Player(position=[250, 250], radius=10, speed=1)
 
     bullets: List[Bullet] = []
-
-    enemies: List[Enemy] = [Enemy(sprite=enemy_sprite, pos_x=1000, pos_y=1000, speed=0.5, health=10),
-                            Enemy(sprite=enemy_sprite, pos_x=0, pos_y=0, speed=0.5, health=10)]
+    enemies: List[Enemy] = [BlackAmogus(pos_x=1000, pos_y=1000),
+                            BlackAmogus(pos_x=0, pos_y=0)]
 
     while running:
         game_time_in_ms = pygame.time.get_ticks()
@@ -77,7 +67,6 @@ def main():
                                bullets=bullets,
                                background_gif=background_gif,
                                cursor=cursor,
-                               cursor_img_rect=cursor_img_rect,
                                game_time_in_ms=game_time_in_ms)
         pygame.display.flip()
         time.sleep(0.001)    
