@@ -11,6 +11,8 @@ from objects.gif_background import BackgroundGIF
 from objects.player import Player
 from objects.screen import Screen
 from objects.enemy import Enemy, BlackAmogus
+from objects.weapon import Glock
+from objects.weapon import Shotgun
 
 from classes.file_paths import FilePaths
 from utils.bullet_utils import BulletUtils
@@ -31,6 +33,12 @@ def main():
     cursor = Cursor()
     player = Player(position=[250, 250], radius=10, speed=1)
 
+    weapon_counter = 0
+    primary = Shotgun()
+    secondary = Glock()
+    weapon_list = [primary, secondary]
+    weapon = primary
+
     bullets: List[Bullet] = []
     enemies: List[Enemy] = [BlackAmogus(pos_x=1000, pos_y=1000),
                             BlackAmogus(pos_x=0, pos_y=0)]
@@ -43,13 +51,21 @@ def main():
         for event in pygame.event.get():
             if event.type == pygame.MOUSEBUTTONDOWN:
                 mouse_x, mouse_y = pygame.mouse.get_pos()
-                amongus_sfx.play()
-                bullets.append(Bullet(pos_x=player.position[0], pos_y=player.position[1], dest_x=mouse_x, dest_y=mouse_y, speed=1, radius=40))
+                # amongus_sfx.play()
+                # bullets.append(Bullet(pos_x=player.position[0], pos_y=player.position[1], dest_x=mouse_x, dest_y=mouse_y, speed=1, radius=40))
+                
+                if not weapon.reloading:
+                    # bullets = weapon.shoot(pos_x=player.position[0], pos_y=player.position[1], dest_x=mouse_x, dest_y=mouse_y, bullet_list=bullets)
+                    if not weapon.shotCD: 
+                        amongus_sfx.play()
+                    bullets = weapon.shoot(pos_x=player.position[0], pos_y=player.position[1], dest_x=mouse_x, dest_y=mouse_y, bullet_list=bullets)
             
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_LSHIFT:
                     player.dash(dash_distance=100, area_x=screen.x, area_y=screen.y)
-
+                if event.key == pygame.K_z:
+                    weapon_counter += 1
+                    weapon = weapon_list[weapon_counter%len(weapon_list)]
             if event.type == pygame.QUIT:
                 running = False
 
@@ -59,6 +75,12 @@ def main():
         bullets = BulletUtils.delete_hit_bullets(bullets, hit_bullets)
 
         enemies = EnemyUtils.handle_enemies(enemies=enemies, bullets=hit_bullets, player=player)
+
+        if weapon.reloading:
+            weapon.reload()
+
+        if time.time() - weapon.last_shot_time > weapon.shoot_cd:
+            weapon.shotCD = False
 
 
         # Draw a solid blue circle in the center
