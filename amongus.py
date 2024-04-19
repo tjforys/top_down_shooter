@@ -31,7 +31,7 @@ def main():
     screen = Screen(screen_x=500, screen_y=500)
     background_gif = BackgroundGIF(gif_frames_folder=FilePaths.gif_monday_2, draw_frequency_in_ms=75)
     cursor = Cursor()
-    player = Player(position=[250, 250], radius=10, speed=1)
+    player = Player(position=[250, 250], radius=10, speed=1, hitbox=(40, 52))
 
     weapon_counter = 0
     primary = Shotgun()
@@ -97,7 +97,7 @@ def main():
                                game_time_in_ms=game_time_in_ms)
         pygame.display.flip()
         time.sleep(0.001)    
-        #generating enemies
+        # generating enemies
         if time.time() - enemy_spawn_time > enemy_spawn_cd:
             spawn_coords = random.choice(enemy_spawn_location_list)
             enemytype = random.choice([1, 2])
