@@ -1,6 +1,6 @@
 import pygame
 import time
-
+import random
 
 from typing import List
 
@@ -10,7 +10,7 @@ from objects.bullet import Bullet
 from objects.gif_background import BackgroundGIF
 from objects.player import Player
 from objects.screen import Screen
-from objects.enemy import Enemy, BlackAmogus
+from objects.enemy import Enemy, BlackAmogus, Goku
 from objects.weapon import Glock
 from objects.weapon import Shotgun
 
@@ -40,8 +40,10 @@ def main():
     weapon = primary
 
     bullets: List[Bullet] = []
-    enemies: List[Enemy] = [BlackAmogus(pos_x=1000, pos_y=1000),
-                            BlackAmogus(pos_x=0, pos_y=0)]
+    enemies: List[Enemy] = []
+    enemy_spawn_cd = 5
+    enemy_spawn_time = 0
+    enemy_spawn_location_list =[(0,0), (1000, 1000), (1000, 1500), (1000, 500), (-500, 1000)]
 
     while running:
         game_time_in_ms = pygame.time.get_ticks()
@@ -62,6 +64,9 @@ def main():
                 if event.key == pygame.K_z:
                     weapon_counter += 1
                     weapon = weapon_list[weapon_counter%len(weapon_list)]
+                if event.key == pygame.K_r and weapon.reloading is False:
+                    weapon.reload_start_time = time.time()
+                    weapon.reloading = True
             if event.type == pygame.QUIT:
                 running = False
 
@@ -80,6 +85,10 @@ def main():
 
 
         # Draw a solid blue circle in the center
+        for enemy in enemies:
+            enemy.play_random_sound()
+
+
         screen.draw_everything(player=player,
                                enemies=enemies,
                                bullets=bullets,
@@ -88,6 +97,16 @@ def main():
                                game_time_in_ms=game_time_in_ms)
         pygame.display.flip()
         time.sleep(0.001)    
+        #generating enemies
+        if time.time() - enemy_spawn_time > enemy_spawn_cd:
+            spawn_coords = random.choice(enemy_spawn_location_list)
+            enemytype = random.choice([1, 2])
+            if enemytype == 1:
+                enemies.append(BlackAmogus(spawn_coords[0], spawn_coords[1]))
+            if enemytype == 2:
+                enemies.append(Goku(spawn_coords[0], spawn_coords[1]))
+            enemy_spawn_time  = time.time()
+
 
     pygame.quit()
 

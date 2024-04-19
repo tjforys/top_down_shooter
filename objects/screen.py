@@ -50,6 +50,8 @@ class Screen:
         if player.rotation is Directions.LEFT:
             self.screen.blit(pygame.transform.flip(player.sprite, True, False), (player.position[0]-25, player.position[1]-25))
 
+        # pygame.draw.circle(self.screen, Color.black, (player.position[0], player.position[1]), 10)
+
 
     def draw_background_gif_pic(self, gif: BackgroundGIF):
         last_draw_time_to_update = False
@@ -70,7 +72,8 @@ class Screen:
 
     def draw_enemies(self, enemies: List[Enemy]):
         for enemy in enemies:
-            self.screen.blit(enemy.sprite, (enemy.pos_x, enemy.pos_y))
+            self.screen.blit(enemy.sprite, (enemy.pos_x-25, enemy.pos_y-25))
+            # pygame.draw.rect(self.screen, (255, 0, 0), pygame.Rect(enemy.pos_x, enemy.pos_y, enemy.hitbox[0], enemy.hitbox[1]))
 
 
     def draw_bullets(self, bullets: List[Bullet]):
