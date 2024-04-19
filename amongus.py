@@ -30,13 +30,14 @@ def main():
 
     screen = Screen(screen_x=500, screen_y=500)
     background_gif = BackgroundGIF(gif_frames_folder=FilePaths.gif_monday_2, draw_frequency_in_ms=75)
-    cursor = Cursor()
+    cursor = Cursor(FilePaths.png_shotgun_cursor)
     player = Player(position=[250, 250], radius=10, speed=1, hitbox=(40, 52))
 
     weapon_counter = 0
     primary = Shotgun()
     secondary = Glock()
     weapon_list = [primary, secondary]
+    cursor_list = [Cursor(FilePaths.png_shotgun_cursor), Cursor(FilePaths.png_glock_cursor)]
     weapon = primary
 
     bullets: List[Bullet] = []
@@ -64,6 +65,7 @@ def main():
                 if event.key == pygame.K_z:
                     weapon_counter += 1
                     weapon = weapon_list[weapon_counter%len(weapon_list)]
+                    cursor = cursor_list[weapon_counter%len(cursor_list)]
                 if event.key == pygame.K_r and weapon.reloading is False:
                     weapon.reload_start_time = time.time()
                     weapon.reloading = True
