@@ -49,6 +49,7 @@ class Enemy:
     def take_damage(self, amount: float):
         self.health -= amount
         if self.health < 1:
+            Music(FilePaths.mp3_enemy_death, volume= 0.3).play()
             del self
 
 
@@ -63,7 +64,7 @@ class BlackAmogus(Enemy):
             pos_y=pos_y,
             speed=0.5,
             hitbox=(30, 30*1.1875),
-            music_list=[Music(target_file=FilePaths.mp3_black_impostor)],
+            music_list=[Music(target_file=FilePaths.mp3_black_impostor, volume=0.05)],
             musicCD=5
         )
         black_impostor = pygame.image.load(FilePaths.png_enemy_sprite_black_impostor).convert_alpha()

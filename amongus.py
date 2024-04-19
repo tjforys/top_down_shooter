@@ -24,7 +24,7 @@ def main():
 
     pygame.mouse.set_visible(False)
 
-    amongus_sfx = Music(target_file=FilePaths.mp3_amongus, volume=0.1, loop=False)
+    amongus_sfx = Music(target_file=FilePaths.mp3_amongus, volume=0.05, loop=False)
     bg_music = Music(target_file=FilePaths.mp3_monday, volume=0.1, loop=True)
     bg_music.play()
 
@@ -63,12 +63,12 @@ def main():
                 if event.key == pygame.K_LSHIFT:
                     player.dash(dash_distance=100, area_x=screen.x, area_y=screen.y)
                 if event.key == pygame.K_z:
+                    Music(FilePaths.mp3_change_weapon, volume= 0.3).play()
                     weapon_counter += 1
                     weapon = weapon_list[weapon_counter%len(weapon_list)]
                     cursor = cursor_list[weapon_counter%len(cursor_list)]
-                if event.key == pygame.K_r and weapon.reloading is False:
-                    weapon.reload_start_time = time.time()
-                    weapon.reloading = True
+                if event.key == pygame.K_r and weapon.reloading is False and weapon.current_magazine != weapon.max_magazine:
+                    weapon.reload()
             if event.type == pygame.QUIT:
                 running = False
 
