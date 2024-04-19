@@ -62,7 +62,7 @@ class BlackAmogus(Enemy):
             pos_x=pos_x,
             pos_y=pos_y,
             speed=0.5,
-            hitbox=(20, 40),
+            hitbox=(30, 30*1.1875),
             music_list=[Music(target_file=FilePaths.mp3_black_impostor)],
             musicCD=5
         )
@@ -79,7 +79,7 @@ class Goku(Enemy):
             pos_x=pos_x,
             pos_y=pos_y,
             speed=1,
-            hitbox=(40, 71),
+            hitbox=(40, 40*3.154),
             music_list=[Music(target_file=FilePaths.mp3_goku1, volume=0.2), Music(target_file=FilePaths.mp3_goku2, volume= 0.2), Music(FilePaths.mp3_goku3, volume=0.2)],
             musicCD=5
         )
