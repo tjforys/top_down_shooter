@@ -50,12 +50,8 @@ def main():
 
         for event in pygame.event.get():
             if event.type == pygame.MOUSEBUTTONDOWN:
-                mouse_x, mouse_y = pygame.mouse.get_pos()
-                # amongus_sfx.play()
-                # bullets.append(Bullet(pos_x=player.position[0], pos_y=player.position[1], dest_x=mouse_x, dest_y=mouse_y, speed=1, radius=40))
-                
+                mouse_x, mouse_y = pygame.mouse.get_pos()         
                 if not weapon.reloading:
-                    # bullets = weapon.shoot(pos_x=player.position[0], pos_y=player.position[1], dest_x=mouse_x, dest_y=mouse_y, bullet_list=bullets)
                     if not weapon.shotCD: 
                         amongus_sfx.play()
                     bullets = weapon.shoot(pos_x=player.position[0], pos_y=player.position[1], dest_x=mouse_x, dest_y=mouse_y, bullet_list=bullets)
