@@ -10,6 +10,8 @@ from objects.enemy import Enemy
 from objects.gif_background import BackgroundGIF
 from objects.player import Player
 
+# from utils.drawing_utils import DrawingUtils
+
 
 class Screen:
     def __init__(self, screen_x, screen_y):
@@ -49,10 +51,7 @@ class Screen:
             self.screen.blit(player.sprite, (player.position[0]-player.hitbox[0]/2, player.position[1]-player.hitbox[1]/2))
         if player.rotation is Directions.LEFT:
             self.screen.blit(pygame.transform.flip(player.sprite, True, False), (player.position[0]-player.hitbox[0]/2, player.position[1]-player.hitbox[1]/2))
-
-        
-        # pygame.draw.rect(self.screen, (255, 0, 0), pygame.Rect(player.position[0] -player.hitbox[0]/2, player.position[1] - player.hitbox[1]/2, player.hitbox[0], player.hitbox[1]))
-        # pygame.draw.circle(self.screen, Color.black, (player.position[0], player.position[1]), 10)
+     
 
     def draw_background_gif_pic(self, gif: BackgroundGIF):
         last_draw_time_to_update = False
@@ -74,8 +73,6 @@ class Screen:
     def draw_enemies(self, enemies: List[Enemy]):
         for enemy in enemies:
             self.screen.blit(enemy.sprite, (enemy.pos_x-enemy.hitbox[0]/2, enemy.pos_y-enemy.hitbox[1]/2))
-            # pygame.draw.rect(self.screen, (0, 255, 0), pygame.Rect(enemy.pos_x - enemy.hitbox[0]/2, enemy.pos_y - enemy.hitbox[1]/2, enemy.hitbox[0], enemy.hitbox[1]))
-
 
     def draw_bullets(self, bullets: List[Bullet]):
         for bullet in bullets:
@@ -86,3 +83,16 @@ class Screen:
         cursor.img_rect.center = pygame.mouse.get_pos()
         self.screen.blit(cursor.img, cursor.img_rect)
 
+
+class DrawingUtils:
+
+    @staticmethod
+    def draw_player_hitbox(screen: Screen, player: Player):
+        pygame.draw.rect(screen.screen, (255, 0, 0), pygame.Rect(player.position[0] - player.hitbox[0]/2, player.position[1] - player.hitbox[1]/2, player.hitbox[0], player.hitbox[1]))
+        pygame.draw.circle(screen.screen, (0, 0, 0), (player.position[0], player.position[1]), 10)
+
+
+    @staticmethod
+    def draw_enemy_hitbox(screen: Screen, enemies: List[Enemy]):
+        for enemy in enemies:
+            pygame.draw.rect(screen.screen, (0, 255, 0), pygame.Rect(enemy.pos_x - enemy.hitbox[0]/2, enemy.pos_y - enemy.hitbox[1]/2, enemy.hitbox[0], enemy.hitbox[1]))

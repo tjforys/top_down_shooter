@@ -1,5 +1,5 @@
 import math
-
+from typing import List
 import pygame
 import random
 from classes.file_paths import FilePaths
@@ -8,7 +8,7 @@ from objects.music import Music
 import time
 
 class Enemy:
-    def __init__(self, pos_x: int, pos_y: int, speed: float, health: int, hitbox: tuple, music_list: list[Music], musicCD: float):
+    def __init__(self, pos_x: int, pos_y: int, speed: float, health: int, hitbox: tuple, music_list: List[Music], musicCD: float):
         self.pos_x = pos_x
         self.pos_y = pos_y
         self.speed = speed
@@ -55,9 +55,6 @@ class Enemy:
 
 class BlackAmogus(Enemy):
     def __init__(self, pos_x, pos_y):
-        # black_impostor = pygame.image.load(FilePaths.png_enemy_sprite_black_impostor).convert_alpha()
-        # black_impostor = pygame.transform.scale(black_impostor, (40, 52))
-
         super().__init__(
             health=10,
             pos_x=pos_x,
