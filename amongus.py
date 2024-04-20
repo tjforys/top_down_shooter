@@ -24,19 +24,20 @@ def main():
 
     pygame.mouse.set_visible(False)
 
-    amongus_sfx = Music(target_file=FilePaths.mp3_amongus, volume=0.1, loop=False)
+    amongus_sfx = Music(target_file=FilePaths.mp3_amongus, volume=0.05, loop=False)
     bg_music = Music(target_file=FilePaths.mp3_monday, volume=0.1, loop=True)
     bg_music.play()
 
     screen = Screen(screen_x=500, screen_y=500)
     background_gif = BackgroundGIF(gif_frames_folder=FilePaths.gif_monday_2, draw_frequency_in_ms=75)
-    cursor = Cursor()
-    player = Player(position=[250, 250], radius=10, speed=1)
+    cursor = Cursor(FilePaths.png_shotgun_cursor)
+    player = Player(position=[250, 250], radius=10, speed=1, hitbox=(40, 52))
 
     weapon_counter = 0
     primary = Shotgun()
     secondary = Glock()
     weapon_list = [primary, secondary]
+    cursor_list = [Cursor(FilePaths.png_shotgun_cursor), Cursor(FilePaths.png_glock_cursor)]
     weapon = primary
 
     bullets: List[Bullet] = []
@@ -62,11 +63,12 @@ def main():
                 if event.key == pygame.K_LSHIFT:
                     player.dash(dash_distance=100, area_x=screen.x, area_y=screen.y)
                 if event.key == pygame.K_z:
+                    Music(FilePaths.mp3_change_weapon, volume= 0.3).play()
                     weapon_counter += 1
                     weapon = weapon_list[weapon_counter%len(weapon_list)]
-                if event.key == pygame.K_r and weapon.reloading is False:
-                    weapon.reload_start_time = time.time()
-                    weapon.reloading = True
+                    cursor = cursor_list[weapon_counter%len(cursor_list)]
+                if event.key == pygame.K_r and weapon.reloading is False and weapon.current_magazine != weapon.max_magazine:
+                    weapon.reload()
             if event.type == pygame.QUIT:
                 running = False
 
@@ -97,7 +99,7 @@ def main():
                                game_time_in_ms=game_time_in_ms)
         pygame.display.flip()
         time.sleep(0.001)    
-        #generating enemies
+        # generating enemies
         if time.time() - enemy_spawn_time > enemy_spawn_cd:
             spawn_coords = random.choice(enemy_spawn_location_list)
             enemytype = random.choice([1, 2])

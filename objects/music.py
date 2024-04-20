@@ -5,6 +5,7 @@ class Music:
         self.volume = volume
         self._loop = -1 if loop else 0
         pygame.mixer.init()
+        pygame.mixer.set_num_channels(15)
 
 
     def play(self):
