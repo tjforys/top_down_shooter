@@ -34,8 +34,8 @@ class Screen:
         self.draw_background_gif_pic(background_gif)
         self.show_current_time(game_time_in_ms)
         self.draw_cursor(cursor)
-        self.draw_player(player)
         self.draw_enemies(enemies)
+        self.draw_player(player)
         self.draw_bullets(bullets)
 
         pygame.display.flip()
@@ -46,10 +46,13 @@ class Screen:
 
     def draw_player(self, player: Player):
         if player.rotation is Directions.RIGHT:
-            self.screen.blit(player.sprite, (player.position[0]-25, player.position[1]-25))
+            self.screen.blit(player.sprite, (player.position[0]-player.hitbox[0]/2, player.position[1]-player.hitbox[1]/2))
         if player.rotation is Directions.LEFT:
-            self.screen.blit(pygame.transform.flip(player.sprite, True, False), (player.position[0]-25, player.position[1]-25))
+            self.screen.blit(pygame.transform.flip(player.sprite, True, False), (player.position[0]-player.hitbox[0]/2, player.position[1]-player.hitbox[1]/2))
 
+        
+        # pygame.draw.rect(self.screen, (255, 0, 0), pygame.Rect(player.position[0] -player.hitbox[0]/2, player.position[1] - player.hitbox[1]/2, player.hitbox[0], player.hitbox[1]))
+        # pygame.draw.circle(self.screen, Color.black, (player.position[0], player.position[1]), 10)
 
     def draw_background_gif_pic(self, gif: BackgroundGIF):
         last_draw_time_to_update = False
@@ -70,7 +73,8 @@ class Screen:
 
     def draw_enemies(self, enemies: List[Enemy]):
         for enemy in enemies:
-            self.screen.blit(enemy.sprite, (enemy.pos_x, enemy.pos_y))
+            self.screen.blit(enemy.sprite, (enemy.pos_x-enemy.hitbox[0]/2, enemy.pos_y-enemy.hitbox[1]/2))
+            # pygame.draw.rect(self.screen, (0, 255, 0), pygame.Rect(enemy.pos_x - enemy.hitbox[0]/2, enemy.pos_y - enemy.hitbox[1]/2, enemy.hitbox[0], enemy.hitbox[1]))
 
 
     def draw_bullets(self, bullets: List[Bullet]):
