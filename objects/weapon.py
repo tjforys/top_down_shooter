@@ -22,7 +22,6 @@ class Weapon:
         self.last_shot_time = 0
         self.shot_speed_spread = shot_speed_spread
 
-
     def shoot(self, pos_x, pos_y, dest_x, dest_y, bullet_list):
         if not self.shotCD:
             if self.current_magazine <= 1:
@@ -31,7 +30,7 @@ class Weapon:
             self.last_shot_time = time.time()
             self.shotCD = True
             for i in range(self.shot_amount):
-                bullet_list.append(Bullet(pos_x=pos_x, pos_y=pos_y, dest_x=dest_x + random.randint(-self.spread, self.spread), dest_y=dest_y + random.randint(-self.spread, self.spread) , speed=self.bullet_speed, radius=self.bullet_size))
+                bullet_list.append(Bullet(pos_x=pos_x, pos_y=pos_y, dest_x=dest_x + random.randint(-self.spread, self.spread), dest_y=dest_y + random.randint(-self.spread, self.spread) , speed=self.bullet_speed+random.uniform(-self.shot_speed_spread, self.shot_speed_spread), radius=self.bullet_size))
         return bullet_list
 
     def reload(self):
