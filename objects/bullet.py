@@ -3,7 +3,7 @@ from typing import List
 
 
 class Bullet():
-    def __init__(self, pos_x: int, pos_y: int, dest_x: int, dest_y: int, speed: float, radius: int):
+    def __init__(self, pos_x: int, pos_y: int, dest_x: int, dest_y: int, speed: float, radius: int = 40):
         self.position: list = [pos_x, pos_y]
         self._dest_pos: list = [dest_x, dest_y]
         self.radius = radius
