@@ -31,7 +31,8 @@ def main():
     screen = Screen(screen_x=500, screen_y=500)
     background_gif = BackgroundGIF(gif_frames_folder=FilePaths.gif_monday_2, draw_frequency_in_ms=75)
     cursor = Cursor(FilePaths.png_shotgun_cursor)
-    player = Player(position=[250, 250], radius=10, speed=1, hitbox=(40, 52))
+    player = Player(position=[250, 250], radius=10, speed=1, hitbox=(40, 52), max_hp=10)
+
     weapon_counter = 0
     primary = Shotgun()
     secondary = Glock()
@@ -91,6 +92,7 @@ def main():
                                background_gif=background_gif,
                                cursor=cursor,
                                game_time_in_ms=game_time_in_ms)
+        screen.draw_hp_bars(player, enemies)
 
         enemy_spawn_time, enemies = EnemyUtils.generate_enemies(enemy_spawn_cd=enemy_spawn_cd,
                                     enemy_spawn_location_list=enemy_spawn_location_list,

@@ -8,11 +8,12 @@ from objects.music import Music
 import time
 
 class Enemy:
-    def __init__(self, pos_x: int, pos_y: int, speed: float, health: int, hitbox: tuple, music_list: List[Music], musicCD: float):
+    def __init__(self, pos_x: int, pos_y: int, speed: float, max_hp: int, hitbox: tuple, music_list: List[Music], musicCD: float):
         self.pos_x = pos_x
         self.pos_y = pos_y
         self.speed = speed
-        self.health = health
+        self.max_hp = max_hp
+        self.health = max_hp
         self.hitbox = hitbox
         self.music_list = music_list
         self.last_music_time = 0
@@ -58,7 +59,7 @@ class BlackAmogus(Enemy):
         sprite = pygame.image.load(FilePaths.png_enemy_sprite_black_impostor).convert_alpha()
         image_proportions = sprite.get_height()/sprite.get_width()
         super().__init__(
-            health=10,
+            max_hp=10,
             pos_x=pos_x,
             pos_y=pos_y,
             speed=0.5,
@@ -76,7 +77,7 @@ class Goku(Enemy):
         sprite = pygame.image.load(FilePaths.png_goku).convert_alpha()
         image_proportions = sprite.get_height()/sprite.get_width()       
         super().__init__(
-            health=5,
+            max_hp=5,
             pos_x=pos_x,
             pos_y=pos_y,
             speed=1,

@@ -89,3 +89,20 @@ class Screen:
     def draw_enemy_hitbox(self, enemies: List[Enemy]):
         for enemy in enemies:
             pygame.draw.rect(self.screen, (0, 255, 0), pygame.Rect(enemy.pos_x - enemy.hitbox[0]/2, enemy.pos_y - enemy.hitbox[1]/2, enemy.hitbox[0], enemy.hitbox[1]))
+
+
+    def draw_hp_bars(self, player: Player, enemies: List[Enemy]):
+        bar_width = 60
+        bar_height = 5
+        bar_rect = pygame.Rect(player.position[0] - bar_width/2, player.position[1] - player.hitbox[1]/2 - 10, bar_width, bar_height)
+        player_health_percent = player.current_hp/player.max_hp
+
+        pygame.draw.rect(self.screen, Color.red, bar_rect)
+        pygame.draw.rect(self.screen, Color.green, (bar_rect.x, player.position[1] - player.hitbox[1]/2 - 10, bar_width*player_health_percent, bar_height))
+
+        for enemy in enemies:
+            bar_rect = pygame.Rect(enemy.pos_x - bar_width/2, enemy.pos_y - enemy.hitbox[1]/2 - 10, bar_width, bar_height)
+            enemy_health_percent = enemy.health/enemy.max_hp
+
+            pygame.draw.rect(self.screen, Color.red, bar_rect)
+            pygame.draw.rect(self.screen, Color.green,(bar_rect.x, enemy.pos_y - enemy.hitbox[1]/2 - 10, bar_width * enemy_health_percent, bar_height))
