@@ -1,6 +1,6 @@
 import pygame
 import time
-
+import random
 
 from typing import List
 
@@ -10,7 +10,7 @@ from objects.bullet import Bullet
 from objects.gif_background import BackgroundGIF
 from objects.player import Player
 from objects.screen import Screen
-from objects.enemy import Enemy, BlackAmogus
+from objects.enemy import Enemy, BlackAmogus, Goku
 from objects.weapon import Glock
 from objects.weapon import Shotgun
 
@@ -24,24 +24,27 @@ def main():
 
     pygame.mouse.set_visible(False)
 
-    amongus_sfx = Music(target_file=FilePaths.mp3_amongus, volume=0.1, loop=False)
+    amongus_sfx = Music(target_file=FilePaths.mp3_amongus, volume=0.05, loop=False)
     bg_music = Music(target_file=FilePaths.mp3_monday, volume=0.1, loop=True)
     bg_music.play()
 
     screen = Screen(screen_x=500, screen_y=500)
     background_gif = BackgroundGIF(gif_frames_folder=FilePaths.gif_monday_2, draw_frequency_in_ms=75)
-    cursor = Cursor()
-    player = Player(position=[250, 250], radius=10, speed=1)
+    cursor = Cursor(FilePaths.png_shotgun_cursor)
+    player = Player(position=[250, 250], radius=10, speed=1, hitbox=(40, 52))
 
     weapon_counter = 0
     primary = Shotgun()
     secondary = Glock()
     weapon_list = [primary, secondary]
+    cursor_list = [Cursor(FilePaths.png_shotgun_cursor), Cursor(FilePaths.png_glock_cursor)]
     weapon = primary
 
     bullets: List[Bullet] = []
-    enemies: List[Enemy] = [BlackAmogus(pos_x=1000, pos_y=1000),
-                            BlackAmogus(pos_x=0, pos_y=0)]
+    enemies: List[Enemy] = []
+    enemy_spawn_cd = 5
+    enemy_spawn_time = 0
+    enemy_spawn_location_list =[(0,0), (1000, 1000), (1000, 1500), (1000, 500), (-500, 1000)]
 
     while running:
         game_time_in_ms = pygame.time.get_ticks()
@@ -60,8 +63,12 @@ def main():
                 if event.key == pygame.K_LSHIFT:
                     player.dash(dash_distance=100, area_x=screen.x, area_y=screen.y)
                 if event.key == pygame.K_z:
+                    Music(FilePaths.mp3_change_weapon, volume= 0.3).play()
                     weapon_counter += 1
                     weapon = weapon_list[weapon_counter%len(weapon_list)]
+                    cursor = cursor_list[weapon_counter%len(cursor_list)]
+                if event.key == pygame.K_r and weapon.reloading is False and weapon.current_magazine != weapon.max_magazine:
+                    weapon.reload()
             if event.type == pygame.QUIT:
                 running = False
 
@@ -80,6 +87,10 @@ def main():
 
 
         # Draw a solid blue circle in the center
+        for enemy in enemies:
+            enemy.play_random_sound()
+
+
         screen.draw_everything(player=player,
                                enemies=enemies,
                                bullets=bullets,
@@ -88,6 +99,16 @@ def main():
                                game_time_in_ms=game_time_in_ms)
         pygame.display.flip()
         time.sleep(0.001)    
+        # generating enemies
+        if time.time() - enemy_spawn_time > enemy_spawn_cd:
+            spawn_coords = random.choice(enemy_spawn_location_list)
+            enemytype = random.choice([1, 2])
+            if enemytype == 1:
+                enemies.append(BlackAmogus(spawn_coords[0], spawn_coords[1]))
+            if enemytype == 2:
+                enemies.append(Goku(spawn_coords[0], spawn_coords[1]))
+            enemy_spawn_time  = time.time()
+
 
     pygame.quit()
 

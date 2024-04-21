@@ -6,15 +6,17 @@ from utils.movement_utils import Movement
 
 
 class Player:
-    def __init__(self, position: list, radius: int, speed: float):
+    def __init__(self, position: list, radius: int, speed: float, hitbox: tuple):
+        self.hitbox = hitbox
         amongus = pygame.image.load(FilePaths.png_amogus).convert_alpha()
-        amongus = pygame.transform.scale(amongus, (40, 52))
+        amongus = pygame.transform.scale(amongus, (self.hitbox[0], self.hitbox[1]))
 
         self.sprite = amongus
         self.rotation = Directions.RIGHT
         self.position = position
         self.radius = radius
         self._speed = speed
+        
 
     
     def move(self, area_x, area_y):
