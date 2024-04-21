@@ -62,10 +62,9 @@ def main():
                 if not weapon.reloading:
                     if not weapon.shotCD: 
                         amongus_sfx.play()
-                    bullets = weapon.shoot(pos_x=player.position[0], pos_y=player.position[1], dest_x=mouse_x, dest_y=mouse_y, bullet_list=bullets)
+                        bullets = weapon.shoot(pos_x=player.position[0], pos_y=player.position[1], dest_x=mouse_x, dest_y=mouse_y, bullet_list=bullets)
             
             if event.type == pygame.KEYDOWN:
-
                 if event.key == pygame.K_LSHIFT:
                     player.dash(dash_distance=100, area_x=screen.x, area_y=screen.y)
 
@@ -97,8 +96,7 @@ def main():
                                background_gif=background_gif,
                                cursor=cursor,
                                game_time_in_ms=game_time_in_ms)
-        pygame.display.flip()
-        time.sleep(0.001)    
+   
 
         enemy_spawn_time, enemies = EnemyUtils.generate_enemies(enemy_spawn_cd=enemy_spawn_cd,
                                     enemy_spawn_location_list=enemy_spawn_location_list,

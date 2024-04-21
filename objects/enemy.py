@@ -49,38 +49,40 @@ class Enemy:
     def take_damage(self, amount: float):
         self.health -= amount
         if self.health < 1:
-            Music(FilePaths.mp3_enemy_death, volume= 0.3).play()
+            Music(FilePaths.mp3_enemy_death, volume=0.3).play()
             del self
 
 
 class BlackAmogus(Enemy):
     def __init__(self, pos_x, pos_y):
+        sprite = pygame.image.load(FilePaths.png_enemy_sprite_black_impostor).convert_alpha()
+        image_proportions = sprite.get_height()/sprite.get_width()
         super().__init__(
             health=10,
             pos_x=pos_x,
             pos_y=pos_y,
             speed=0.5,
-            hitbox=(30, 30*1.1875),
+            hitbox=(30, 30*image_proportions),
             music_list=[Music(target_file=FilePaths.mp3_black_impostor, volume=0.05)],
             musicCD=5
         )
-        black_impostor = pygame.image.load(FilePaths.png_enemy_sprite_black_impostor).convert_alpha()
-        black_impostor = pygame.transform.scale(black_impostor, (self.hitbox[0], self.hitbox[1]))
+        black_impostor = pygame.transform.scale(sprite, (self.hitbox[0], self.hitbox[1]))
         self.sprite = black_impostor
 
 
 
 class Goku(Enemy):
-    def __init__(self, pos_x, pos_y):       
+    def __init__(self, pos_x, pos_y):
+        sprite = pygame.image.load(FilePaths.png_goku).convert_alpha()
+        image_proportions = sprite.get_height()/sprite.get_width()       
         super().__init__(
             health=5,
             pos_x=pos_x,
             pos_y=pos_y,
             speed=1,
-            hitbox=(40, 40*3.154),
+            hitbox=(40, 40*image_proportions),
             music_list=[Music(target_file=FilePaths.mp3_goku1, volume=0.2), Music(target_file=FilePaths.mp3_goku2, volume= 0.2), Music(FilePaths.mp3_goku3, volume=0.2)],
             musicCD=5
         )
-        goku = pygame.image.load(FilePaths.png_goku).convert_alpha()
-        goku = pygame.transform.scale(goku, (self.hitbox[0], self.hitbox[1]))
+        goku = pygame.transform.scale(sprite, (self.hitbox[0], self.hitbox[1]))
         self.sprite = goku
