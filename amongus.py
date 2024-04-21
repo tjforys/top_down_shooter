@@ -40,6 +40,12 @@ def main():
     cursor_list = [Cursor(FilePaths.png_shotgun_cursor), Cursor(FilePaths.png_glock_cursor)]
     weapon = primary
 
+    weapon_counter = 0
+    primary = Shotgun()
+    secondary = Glock()
+    weapon_list = [primary, secondary]
+    weapon = primary
+
     bullets: List[Bullet] = []
     enemies: List[Enemy] = []
     enemy_spawn_cd = 5
@@ -63,7 +69,7 @@ def main():
                     if not weapon.shotCD: 
                         amongus_sfx.play()
                         bullets = weapon.shoot(pos_x=player.position[0], pos_y=player.position[1], dest_x=mouse_x, dest_y=mouse_y, bullet_list=bullets)
-            
+
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_LSHIFT:
                     player.dash(dash_distance=100, area_x=screen.x, area_y=screen.y)
@@ -76,7 +82,7 @@ def main():
 
                 if event.key == pygame.K_r and weapon.reloading is False and weapon.current_magazine != weapon.max_magazine:
                     weapon.reload()
-                    
+
             if event.type == pygame.QUIT:
                 running = False
 
