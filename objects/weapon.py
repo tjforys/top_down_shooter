@@ -5,7 +5,7 @@ import time
 import random
 
 class Weapon:
-    def __init__(self, bullet_speed: float, shoot_cd:float, shot_amount: int, max_magazine: int, reload_time:float, spread: int, bullet_size: int, shot_speed_spread: float):
+    def __init__(self, bullet_speed: float, shoot_cd: float, shot_amount: int, max_magazine: int, reload_time: float, spread: int, bullet_size: int, shot_speed_spread: float):
         self.bullet_speed = bullet_speed
         self.shoot_cd = shoot_cd
         self.shot_amount = shot_amount
@@ -28,7 +28,12 @@ class Weapon:
             self.last_shot_time = time.time()
             self.shotCD = True
             for i in range(self.shot_amount):
-                bullet_list.append(Bullet(pos_x=pos_x, pos_y=pos_y, dest_x=dest_x + random.randint(-self.spread, self.spread), dest_y=dest_y + random.randint(-self.spread, self.spread) , speed=self.bullet_speed+random.uniform(-self.shot_speed_spread, self.shot_speed_spread), radius=self.bullet_size))
+                bullet_list.append(Bullet(pos_x=pos_x,
+                                          pos_y=pos_y,
+                                          dest_x=dest_x + random.randint(-self.spread, self.spread),
+                                          dest_y=dest_y + random.randint(-self.spread, self.spread),
+                                          speed=self.bullet_speed+random.uniform(-self.shot_speed_spread, self.shot_speed_spread),
+                                          radius=self.bullet_size))
         return bullet_list
 
     def reload(self):
