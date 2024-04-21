@@ -49,7 +49,6 @@ class Screen:
             self.screen.blit(player.sprite, (player.position[0]-player.hitbox[0]/2, player.position[1]-player.hitbox[1]/2))
         if player.rotation is Directions.LEFT:
             self.screen.blit(pygame.transform.flip(player.sprite, True, False), (player.position[0]-player.hitbox[0]/2, player.position[1]-player.hitbox[1]/2))
-     
 
     def draw_background_gif_pic(self, gif: BackgroundGIF):
         last_draw_time_to_update = False

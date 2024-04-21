@@ -32,18 +32,11 @@ def main():
     background_gif = BackgroundGIF(gif_frames_folder=FilePaths.gif_monday_2, draw_frequency_in_ms=75)
     cursor = Cursor(FilePaths.png_shotgun_cursor)
     player = Player(position=[250, 250], radius=10, speed=1, hitbox=(40, 52))
-
     weapon_counter = 0
     primary = Shotgun()
     secondary = Glock()
     weapon_list = [primary, secondary]
     cursor_list = [Cursor(FilePaths.png_shotgun_cursor), Cursor(FilePaths.png_glock_cursor)]
-    weapon = primary
-
-    weapon_counter = 0
-    primary = Shotgun()
-    secondary = Glock()
-    weapon_list = [primary, secondary]
     weapon = primary
 
     bullets: List[Bullet] = []
@@ -63,8 +56,7 @@ def main():
                 if weapon.reloading:
                     weapon.reload()
                 if time.time() - weapon.last_shot_time > weapon.shoot_cd:
-                    weapon.shotCD = False         
-
+                    weapon.shotCD = False
                 if not weapon.reloading:
                     if not weapon.shotCD: 
                         amongus_sfx.play()
@@ -83,9 +75,6 @@ def main():
                 if event.key == pygame.K_r and weapon.reloading is False and weapon.current_magazine != weapon.max_magazine:
                     weapon.reload()
 
-            if event.type == pygame.QUIT:
-                running = False
-
 
         bullets = BulletUtils.handle_bullets(screen, bullets)
         hit_bullets = BulletUtils.get_hit_bullets(bullets=bullets, enemies=enemies)
@@ -102,12 +91,13 @@ def main():
                                background_gif=background_gif,
                                cursor=cursor,
                                game_time_in_ms=game_time_in_ms)
-   
 
         enemy_spawn_time, enemies = EnemyUtils.generate_enemies(enemy_spawn_cd=enemy_spawn_cd,
                                     enemy_spawn_location_list=enemy_spawn_location_list,
                                     enemy_spawn_time=enemy_spawn_time,
                                     enemies=enemies)
+        pygame.display.flip()
+        time.sleep(0.001)
 
 
     pygame.quit()
