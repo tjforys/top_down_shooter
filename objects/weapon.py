@@ -1,6 +1,4 @@
-from classes.file_paths import FilePaths
 from objects.bullet import Bullet
-from objects.music import Music
 from classes.file_paths import FilePaths
 import time
 import random

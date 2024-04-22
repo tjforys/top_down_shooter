@@ -40,6 +40,7 @@ class Screen:
  
         pygame.display.flip()
 
+
     def fill_screen(self, color: tuple):
         self.screen.fill(color)
 
@@ -49,6 +50,7 @@ class Screen:
             self.screen.blit(player.sprite, (player.position[0]-player.hitbox[0]/2, player.position[1]-player.hitbox[1]/2))
         if player.rotation is Directions.LEFT:
             self.screen.blit(pygame.transform.flip(player.sprite, True, False), (player.position[0]-player.hitbox[0]/2, player.position[1]-player.hitbox[1]/2))
+
 
     def draw_background_gif_pic(self, gif: BackgroundGIF):
         last_draw_time_to_update = False
@@ -70,6 +72,7 @@ class Screen:
     def draw_enemies(self, enemies: List[Enemy]):
         for enemy in enemies:
             self.screen.blit(enemy.sprite, (enemy.pos_x-enemy.hitbox[0]/2, enemy.pos_y-enemy.hitbox[1]/2))
+
 
     def draw_bullets(self, bullets: List[Bullet]):
         for bullet in bullets:
@@ -94,11 +97,8 @@ class Screen:
     def draw_hp_bars(self, player: Player, enemies: List[Enemy]):
         bar_width = 60
         bar_height = 5
-        bar_rect = pygame.Rect(player.position[0] - bar_width/2, player.position[1] - player.hitbox[1]/2 - 10, bar_width, bar_height)
-        player_health_percent = player.current_hp/player.max_hp
-
-        pygame.draw.rect(self.screen, Color.red, bar_rect)
-        pygame.draw.rect(self.screen, Color.green, (bar_rect.x, player.position[1] - player.hitbox[1]/2 - 10, bar_width*player_health_percent, bar_height))
+        self.draw_health_bar(player)
+        map(self.draw_health_bar, enemies)
 
         for enemy in enemies:
             bar_rect = pygame.Rect(enemy.pos_x - bar_width/2, enemy.pos_y - enemy.hitbox[1]/2 - 10, bar_width, bar_height)
@@ -106,3 +106,14 @@ class Screen:
 
             pygame.draw.rect(self.screen, Color.red, bar_rect)
             pygame.draw.rect(self.screen, Color.green,(bar_rect.x, enemy.pos_y - enemy.hitbox[1]/2 - 10, bar_width * enemy_health_percent, bar_height))
+
+
+
+    def draw_health_bar(self, entity):  # aktualnie dziala tylko na gracza bo rozne zapisywanie koordynatow
+        bar_width = 60
+        bar_height = 5
+        bar_rect = pygame.Rect(entity.position[0] - bar_width/2, entity.position[1] - entity.hitbox[1]/2 - 10, bar_width, bar_height)
+        entity_health_percent = entity.current_hp/entity.max_hp
+
+        pygame.draw.rect(self.screen, Color.red, bar_rect)
+        pygame.draw.rect(self.screen, Color.green, (bar_rect.x, entity.position[1] - entity.hitbox[1]/2 - 10, bar_width*entity_health_percent, bar_height))

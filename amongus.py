@@ -1,6 +1,5 @@
 import pygame
 import time
-import random
 
 from typing import List
 
@@ -10,7 +9,7 @@ from objects.bullet import Bullet
 from objects.gif_background import BackgroundGIF
 from objects.player import Player
 from objects.screen import Screen
-from objects.enemy import Enemy, BlackAmogus, Goku
+from objects.enemy import Enemy
 from objects.weapon import Glock
 from objects.weapon import Shotgun
 
@@ -44,7 +43,7 @@ def main():
     enemies: List[Enemy] = []
     enemy_spawn_cd = 5
     enemy_spawn_time = 0
-    enemy_spawn_location_list =[(0, 0), (1000, 1000), (1000, 1500), (1000, 500), (-500, 1000)]
+    enemy_spawn_location_list = [(0, 0), (1000, 1000), (1000, 1500), (1000, 500), (-500, 1000)]
 
     while running:
         game_time_in_ms = pygame.time.get_ticks()
