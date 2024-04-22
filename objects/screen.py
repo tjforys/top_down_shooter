@@ -36,6 +36,7 @@ class Screen:
         self.draw_cursor(cursor)
         self.draw_enemies(enemies)
         self.draw_player(player)
+        self.draw_hp_bars(player, enemies)
         self.draw_bullets(bullets)
  
         pygame.display.flip()
@@ -94,18 +95,19 @@ class Screen:
             pygame.draw.rect(self.screen, (0, 255, 0), pygame.Rect(enemy.pos_x - enemy.hitbox[0]/2, enemy.pos_y - enemy.hitbox[1]/2, enemy.hitbox[0], enemy.hitbox[1]))
 
 
-    def draw_hp_bars(self, player: Player, enemies: List[Enemy]):
+    def draw_hp_bars(self, player: Player, enemies: List[Enemy]):  # funkcja do poprawy jak ujednolicimy koordynaty
         bar_width = 60
         bar_height = 5
         self.draw_health_bar(player)
-        map(self.draw_health_bar, enemies)
+        # map(self.draw_health_bar, enemies)
 
         for enemy in enemies:
-            bar_rect = pygame.Rect(enemy.pos_x - bar_width/2, enemy.pos_y - enemy.hitbox[1]/2 - 10, bar_width, bar_height)
-            enemy_health_percent = enemy.health/enemy.max_hp
+            if enemy.health != enemy.max_hp:
+                bar_rect = pygame.Rect(enemy.pos_x - bar_width/2, enemy.pos_y - enemy.hitbox[1]/2 - 10, bar_width, bar_height)
+                enemy_health_percent = enemy.health/enemy.max_hp
 
-            pygame.draw.rect(self.screen, Color.red, bar_rect)
-            pygame.draw.rect(self.screen, Color.green,(bar_rect.x, enemy.pos_y - enemy.hitbox[1]/2 - 10, bar_width * enemy_health_percent, bar_height))
+                pygame.draw.rect(self.screen, Color.red, bar_rect)
+                pygame.draw.rect(self.screen, Color.green,(bar_rect.x, enemy.pos_y - enemy.hitbox[1]/2 - 10, bar_width * enemy_health_percent, bar_height))
 
 
 
@@ -115,5 +117,6 @@ class Screen:
         bar_rect = pygame.Rect(entity.position[0] - bar_width/2, entity.position[1] - entity.hitbox[1]/2 - 10, bar_width, bar_height)
         entity_health_percent = entity.current_hp/entity.max_hp
 
-        pygame.draw.rect(self.screen, Color.red, bar_rect)
-        pygame.draw.rect(self.screen, Color.green, (bar_rect.x, entity.position[1] - entity.hitbox[1]/2 - 10, bar_width*entity_health_percent, bar_height))
+        if entity.current_hp != entity.max_hp:
+            pygame.draw.rect(self.screen, Color.red, bar_rect)
+            pygame.draw.rect(self.screen, Color.green, (bar_rect.x, entity.position[1] - entity.hitbox[1]/2 - 10, bar_width*entity_health_percent, bar_height))

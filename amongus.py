@@ -53,10 +53,13 @@ def main():
         for event in pygame.event.get():
             if event.type == pygame.MOUSEBUTTONDOWN:
                 mouse_x, mouse_y = pygame.mouse.get_pos()
+
                 if weapon.reloading:
                     weapon.reload()
+
                 if time.time() - weapon.last_shot_time > weapon.shoot_cd:
                     weapon.shotCD = False
+
                 if not weapon.reloading:
                     if not weapon.shotCD: 
                         amongus_sfx.play()
