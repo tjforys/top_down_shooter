@@ -1,6 +1,5 @@
 import pygame
 import time
-import random
 
 from typing import List
 
@@ -10,7 +9,7 @@ from objects.bullet import Bullet
 from objects.gif_background import BackgroundGIF
 from objects.player import Player
 from objects.screen import Screen
-from objects.enemy import Enemy, BlackAmogus, Goku
+from objects.enemy import Enemy
 from objects.weapon import Glock
 from objects.weapon import Shotgun
 
@@ -31,7 +30,7 @@ def main():
     screen = Screen(screen_x=500, screen_y=500)
     background_gif = BackgroundGIF(gif_frames_folder=FilePaths.gif_monday_2, draw_frequency_in_ms=75)
     cursor = Cursor(FilePaths.png_shotgun_cursor)
-    player = Player(position=[250, 250], radius=10, speed=1, hitbox=(40, 52))
+    player = Player(position=[250, 250], radius=10, speed=1, hitbox=(40, 52), max_hp=10)
 
     weapon_counter = 0
     primary = Shotgun()
@@ -44,7 +43,7 @@ def main():
     enemies: List[Enemy] = []
     enemy_spawn_cd = 5
     enemy_spawn_time = 0
-    enemy_spawn_location_list =[(0, 0), (1000, 1000), (1000, 1500), (1000, 500), (-500, 1000)]
+    enemy_spawn_location_list = [(0, 0), (1000, 1000), (1000, 1500), (1000, 500), (-500, 1000)]
 
     while running:
         game_time_in_ms = pygame.time.get_ticks()
@@ -54,16 +53,18 @@ def main():
         for event in pygame.event.get():
             if event.type == pygame.MOUSEBUTTONDOWN:
                 mouse_x, mouse_y = pygame.mouse.get_pos()
+
                 if weapon.reloading:
                     weapon.reload()
+
                 if time.time() - weapon.last_shot_time > weapon.shoot_cd:
-                    weapon.shotCD = False         
+                    weapon.shotCD = False
 
                 if not weapon.reloading:
                     if not weapon.shotCD: 
                         amongus_sfx.play()
                         bullets = weapon.shoot(pos_x=player.position[0], pos_y=player.position[1], dest_x=mouse_x, dest_y=mouse_y, bullet_list=bullets)
-            
+
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_LSHIFT:
                     player.dash(dash_distance=100, area_x=screen.x, area_y=screen.y)
@@ -76,7 +77,7 @@ def main():
 
                 if event.key == pygame.K_r and weapon.reloading is False and weapon.current_magazine != weapon.max_magazine:
                     weapon.reload()
-                    
+
             if event.type == pygame.QUIT:
                 running = False
 
@@ -96,7 +97,6 @@ def main():
                                background_gif=background_gif,
                                cursor=cursor,
                                game_time_in_ms=game_time_in_ms)
-   
 
         enemy_spawn_time, enemies = EnemyUtils.generate_enemies(enemy_spawn_cd=enemy_spawn_cd,
                                     enemy_spawn_location_list=enemy_spawn_location_list,
