@@ -99,7 +99,6 @@ class Screen:
         bar_width = 60
         bar_height = 5
         self.draw_health_bar(player)
-        # map(self.draw_health_bar, enemies)
 
         for enemy in enemies:
             if enemy.health != enemy.max_hp:
@@ -107,7 +106,7 @@ class Screen:
                 enemy_health_percent = enemy.health/enemy.max_hp
 
                 pygame.draw.rect(self.screen, Color.red, bar_rect)
-                pygame.draw.rect(self.screen, Color.green,(bar_rect.x, enemy.pos_y - enemy.hitbox[1]/2 - 10, bar_width * enemy_health_percent, bar_height))
+                pygame.draw.rect(self.screen, Color.green, (bar_rect.x, enemy.pos_y - enemy.hitbox[1]/2 - 10, bar_width * enemy_health_percent, bar_height))
 
 
 
