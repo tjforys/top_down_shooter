@@ -17,3 +17,4 @@ class FilePaths:
     mp3_enemy_death = "mp3/enemy_death.mp3"
     mp3_change_weapon = "mp3/change_weapon.mp3"
     mp3_reload = "mp3/reload.mp3"
+    mp3_bible = "mp3/biblia.mp3"
