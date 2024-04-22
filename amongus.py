@@ -30,7 +30,7 @@ def main():
     screen = Screen(screen_x=500, screen_y=500)
     background_gif = BackgroundGIF(gif_frames_folder=FilePaths.gif_monday_2, draw_frequency_in_ms=75)
     cursor = Cursor(FilePaths.png_shotgun_cursor)
-    player = Player(position=[250, 250], radius=10, speed=1, hitbox=(40, 52), max_hp=10)
+    player = Player(x=250, y=250, radius=10, speed=1, hitbox_x=40, hitbox_y=52, max_hp=10)
 
     weapon_counter = 0
     primary = Shotgun()

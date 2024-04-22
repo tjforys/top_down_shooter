@@ -1,13 +1,13 @@
 class Movement:
     @staticmethod
-    def put_back_in_arena_if_outside(area_x, area_y, object_position):
-        if object_position[0] < 0:
-            object_position[0] = 0
-        if object_position[0] > area_x:
-            object_position[0] = area_x
-        if object_position[1] < 0:
-            object_position[1] = 0
-        if object_position[1] > area_y:
-            object_position[1] = area_y
+    def put_back_in_arena_if_outside(area_x, area_y, obj_x, obj_y):
+        if obj_x < 0:
+            obj_x = 0
+        if obj_x > area_x:
+            obj_x = area_x
+        if obj_y < 0:
+            obj_y = 0
+        if obj_y > area_y:
+            obj_y = area_y
 
-        return object_position
+        return obj_x, obj_y

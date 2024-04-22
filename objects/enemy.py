@@ -9,35 +9,36 @@ import time
 
 
 class Enemy:
-    def __init__(self, pos_x: int, pos_y: int, speed: float, max_hp: int, hitbox: tuple, music_list: List[Music], musicCD: float):
-        self.pos_x = pos_x
-        self.pos_y = pos_y
+    def __init__(self, pos_x: int, pos_y: int, speed: float, max_hp: int, hitbox_x: float, hitbox_y: float,  music_list: List[Music], musicCD: float):
+        self.x = pos_x
+        self.y = pos_y
         self.speed = speed
         self.max_hp = max_hp
         self.health = max_hp
-        self.hitbox = hitbox
+        self.hitbox_x = hitbox_x
+        self.hitbox_y = hitbox_y
         self.music_list = music_list
         self.last_music_time = 0
         self.musicCD = musicCD
 
 
     def move(self, player_x: int, player_y: int):
-        whole_distance = math.dist((self.pos_x, self.pos_y), (player_x, player_y))
+        whole_distance = math.dist((self.x, self.y), (player_x, player_y))
         if whole_distance == 0: 
             whole_distance = 1
-        distance_x = player_x - self.pos_x
-        distance_y = player_y - self.pos_y
+        distance_x = player_x - self.x
+        distance_y = player_y - self.y
 
         speed_x = self.speed*distance_x/whole_distance
         speed_y = self.speed*distance_y/whole_distance
 
-        self.pos_x += speed_x
-        self.pos_y += speed_y
+        self.x += speed_x
+        self.y += speed_y
 
 
     def is_hit(self, bullet: Bullet):
-        if bullet.x - bullet.radius + self.hitbox[0]/2 < self.pos_x + self.hitbox[0] and bullet.x + self.hitbox[0]/2 + bullet.radius > self.pos_x:
-            if bullet.y - bullet.radius + self.hitbox[1]/2 < self.pos_y + self.hitbox[1] and bullet.y + self.hitbox[1]/2 + bullet.radius > self.pos_y:
+        if bullet.x - bullet.radius + self.hitbox_x/2 < self.x + self.hitbox_x and bullet.x + self.hitbox_x/2 + bullet.radius > self.x:
+            if bullet.y - bullet.radius + self.hitbox_y/2 < self.y + self.hitbox_y and bullet.y + self.hitbox_y/2 + bullet.radius > self.y:
                 return True          
         return False
     
@@ -64,11 +65,12 @@ class BlackAmogus(Enemy):
             pos_x=pos_x,
             pos_y=pos_y,
             speed=0.5,
-            hitbox=(30, 30*image_proportions),
+            hitbox_x=30,
+            hitbox_y=30*image_proportions,
             music_list=[Music(target_file=FilePaths.mp3_black_impostor, volume=0.05)],
             musicCD=5
         )
-        black_impostor = pygame.transform.scale(sprite, (self.hitbox[0], self.hitbox[1]))
+        black_impostor = pygame.transform.scale(sprite, (self.hitbox_x, self.hitbox_y))
         self.sprite = black_impostor
 
 
@@ -82,9 +84,10 @@ class Goku(Enemy):
             pos_x=pos_x,
             pos_y=pos_y,
             speed=1,
-            hitbox=(40, 40*image_proportions),
+            hitbox_x=40,
+            hitbox_y=40*image_proportions,
             music_list=[Music(target_file=FilePaths.mp3_goku1, volume=0.2), Music(target_file=FilePaths.mp3_goku2, volume=0.2), Music(FilePaths.mp3_goku3, volume=0.2)],
             musicCD=5
         )
-        goku = pygame.transform.scale(sprite, (self.hitbox[0], self.hitbox[1]))
+        goku = pygame.transform.scale(sprite, (self.hitbox_x, self.hitbox_y))
         self.sprite = goku
