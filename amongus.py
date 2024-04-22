@@ -27,6 +27,9 @@ def main():
     bg_music = Music(target_file=FilePaths.mp3_monday, volume=0.1, loop=True)
     bg_music.play()
 
+    bible = Music(target_file=FilePaths.mp3_bible, volume=1, loop=True)
+    bible.play()
+
     screen = Screen(screen_x=500, screen_y=500)
     background_gif = BackgroundGIF(gif_frames_folder=FilePaths.gif_monday_2, draw_frequency_in_ms=75)
     cursor = Cursor(FilePaths.png_shotgun_cursor)
