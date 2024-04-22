@@ -29,7 +29,7 @@ class EnemyUtils:
 
     @staticmethod
     def move_enemy(enemy: Enemy, player: Player) -> Enemy:
-        return enemy.move(player.position[0], player.position[1])
+        return enemy.move(player.x, player.y)
 
 
     @staticmethod

@@ -63,7 +63,7 @@ def main():
                 if not weapon.reloading:
                     if not weapon.shotCD: 
                         amongus_sfx.play()
-                        bullets = weapon.shoot(pos_x=player.position[0], pos_y=player.position[1], dest_x=mouse_x, dest_y=mouse_y, bullet_list=bullets)
+                        bullets = weapon.shoot(pos_x=player.x, pos_y=player.y, dest_x=mouse_x, dest_y=mouse_y, bullet_list=bullets)
 
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_LSHIFT:

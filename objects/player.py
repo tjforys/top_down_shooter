@@ -38,7 +38,7 @@ class Player:
             self.x += self._speed
             self.rotation = Directions.RIGHT
 
-        self.position = Movement.put_back_in_arena_if_outside(area_x, area_y, self.x, self.y)
+        self.x, self.y = Movement.put_back_in_arena_if_outside(area_x, area_y, self.x, self.y)
 
 
     def dash(self, dash_distance, area_x, area_y):
@@ -52,5 +52,5 @@ class Player:
         if keys[pygame.K_s]:
             self.y += dash_distance
 
-        self.position = Movement.put_back_in_arena_if_outside(area_x, area_y, self.x, self.y)
+        self.x, self.y = Movement.put_back_in_arena_if_outside(area_x, area_y, self.x, self.y)
             
