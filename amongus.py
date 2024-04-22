@@ -94,14 +94,11 @@ def main():
                                background_gif=background_gif,
                                cursor=cursor,
                                game_time_in_ms=game_time_in_ms)
-        screen.draw_hp_bars(player, enemies)
 
         enemy_spawn_time, enemies = EnemyUtils.generate_enemies(enemy_spawn_cd=enemy_spawn_cd,
                                     enemy_spawn_location_list=enemy_spawn_location_list,
                                     enemy_spawn_time=enemy_spawn_time,
                                     enemies=enemies)
-        pygame.display.flip()
-        time.sleep(0.001)
 
 
     pygame.quit()
