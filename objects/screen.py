@@ -77,7 +77,7 @@ class Screen:
 
     def draw_bullets(self, bullets: List[Bullet]):
         for bullet in bullets:
-            pygame.draw.circle(self.screen, Color.black, (bullet.position[0], bullet.position[1]), bullet.radius)
+            pygame.draw.circle(self.screen, Color.black, (bullet.x, bullet.y), bullet.radius)
 
 
     def draw_cursor(self, cursor: Cursor):

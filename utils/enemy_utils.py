@@ -45,7 +45,7 @@ class EnemyUtils:
                 enemies.append(BlackAmogus(spawn_coords[0], spawn_coords[1]))
             if enemytype == 2:
                 enemies.append(Goku(spawn_coords[0], spawn_coords[1]))
-            enemy_spawn_time  = time.time()
+            enemy_spawn_time = time.time()
         return enemy_spawn_time, enemies
     
     @staticmethod

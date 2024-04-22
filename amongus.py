@@ -72,8 +72,8 @@ def main():
                 if event.key == pygame.K_z:
                     Music(FilePaths.mp3_change_weapon, volume= 0.3).play()
                     weapon_counter += 1
-                    weapon = weapon_list[weapon_counter%len(weapon_list)]
-                    cursor = cursor_list[weapon_counter%len(cursor_list)]
+                    weapon = weapon_list[weapon_counter % len(weapon_list)]
+                    cursor = cursor_list[weapon_counter % len(cursor_list)]
 
                 if event.key == pygame.K_r and weapon.reloading is False and weapon.current_magazine != weapon.max_magazine:
                     weapon.reload()
@@ -98,10 +98,11 @@ def main():
                                cursor=cursor,
                                game_time_in_ms=game_time_in_ms)
 
-        enemy_spawn_time, enemies = EnemyUtils.generate_enemies(enemy_spawn_cd=enemy_spawn_cd,
-                                    enemy_spawn_location_list=enemy_spawn_location_list,
-                                    enemy_spawn_time=enemy_spawn_time,
-                                    enemies=enemies)
+        enemy_spawn_time, enemies = EnemyUtils.generate_enemies(
+            enemy_spawn_cd=enemy_spawn_cd,
+            enemy_spawn_location_list=enemy_spawn_location_list,
+            enemy_spawn_time=enemy_spawn_time,
+            enemies=enemies)
 
 
     pygame.quit()

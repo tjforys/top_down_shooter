@@ -45,19 +45,13 @@ class Weapon:
         if self.reloading and time.time() - self.reload_start_time > self.reload_time:
             self.current_magazine = self.max_magazine
             self.reloading = False
-        
-
-
-
 
 
 class Glock(Weapon):
     def __init__(self):
-        super().__init__(bullet_speed = 1.5,  shoot_cd = 0, shot_amount=1, max_magazine=12, reload_time=1.5, spread = 0, bullet_size= 7, shot_speed_spread=0)
-
+        super().__init__(bullet_speed=1.5, shoot_cd=0, shot_amount=1, max_magazine=12, reload_time=1.5, spread=0, bullet_size=7, shot_speed_spread=0)
 
 
 class Shotgun(Weapon):
     def __init__(self):
-        super().__init__(bullet_speed = 1,  shoot_cd = 0.5, shot_amount=3, max_magazine=3, reload_time=3, spread = 40, bullet_size=10, shot_speed_spread=0.2)
-
+        super().__init__(bullet_speed=1, shoot_cd=0.5, shot_amount=3, max_magazine=3, reload_time=3, spread=40, bullet_size=10, shot_speed_spread=0.2)

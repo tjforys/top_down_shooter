@@ -7,6 +7,7 @@ from objects.bullet import Bullet
 from objects.music import Music
 import time
 
+
 class Enemy:
     def __init__(self, pos_x: int, pos_y: int, speed: float, max_hp: int, hitbox: tuple, music_list: List[Music], musicCD: float):
         self.pos_x = pos_x
@@ -35,8 +36,8 @@ class Enemy:
 
 
     def is_hit(self, bullet: Bullet):
-        if bullet.position[0] - bullet.radius + self.hitbox[0]/2 < self.pos_x + self.hitbox[0] and bullet.position[0] + self.hitbox[0]/2 + bullet.radius > self.pos_x:
-            if bullet.position[1] - bullet.radius + self.hitbox[1]/2 < self.pos_y + self.hitbox[1] and bullet.position[1] + self.hitbox[1]/2 + bullet.radius > self.pos_y:
+        if bullet.x - bullet.radius + self.hitbox[0]/2 < self.pos_x + self.hitbox[0] and bullet.x + self.hitbox[0]/2 + bullet.radius > self.pos_x:
+            if bullet.y - bullet.radius + self.hitbox[1]/2 < self.pos_y + self.hitbox[1] and bullet.y + self.hitbox[1]/2 + bullet.radius > self.pos_y:
                 return True          
         return False
     
@@ -82,7 +83,7 @@ class Goku(Enemy):
             pos_y=pos_y,
             speed=1,
             hitbox=(40, 40*image_proportions),
-            music_list=[Music(target_file=FilePaths.mp3_goku1, volume=0.2), Music(target_file=FilePaths.mp3_goku2, volume= 0.2), Music(FilePaths.mp3_goku3, volume=0.2)],
+            music_list=[Music(target_file=FilePaths.mp3_goku1, volume=0.2), Music(target_file=FilePaths.mp3_goku2, volume=0.2), Music(FilePaths.mp3_goku3, volume=0.2)],
             musicCD=5
         )
         goku = pygame.transform.scale(sprite, (self.hitbox[0], self.hitbox[1]))
