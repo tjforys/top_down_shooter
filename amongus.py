@@ -78,6 +78,9 @@ def main():
                 if event.key == pygame.K_r and weapon.reloading is False and weapon.current_magazine != weapon.max_magazine:
                     weapon.reload()
 
+            if event.type == pygame.QUIT:
+                running = False
+
 
         bullets = BulletUtils.handle_bullets(screen, bullets)
         hit_bullets = BulletUtils.get_hit_bullets(bullets=bullets, enemies=enemies)
