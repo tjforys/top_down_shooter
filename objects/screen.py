@@ -48,9 +48,9 @@ class Screen:
 
     def draw_player(self, player: Player):
         if player.rotation is Directions.RIGHT:
-            self.screen.blit(player.sprite, (player.position[0]-player.hitbox[0]/2, player.position[1]-player.hitbox[1]/2))
+            self.screen.blit(player.sprite, (player.x-player.hitbox_x/2, player.y-player.hitbox_y/2))
         if player.rotation is Directions.LEFT:
-            self.screen.blit(pygame.transform.flip(player.sprite, True, False), (player.position[0]-player.hitbox[0]/2, player.position[1]-player.hitbox[1]/2))
+            self.screen.blit(pygame.transform.flip(player.sprite, True, False), (player.x-player.hitbox_x/2, player.y-player.hitbox_y/2))
 
 
     def draw_background_gif_pic(self, gif: BackgroundGIF):
@@ -72,12 +72,12 @@ class Screen:
 
     def draw_enemies(self, enemies: List[Enemy]):
         for enemy in enemies:
-            self.screen.blit(enemy.sprite, (enemy.pos_x-enemy.hitbox[0]/2, enemy.pos_y-enemy.hitbox[1]/2))
+            self.screen.blit(enemy.sprite, (enemy.x - enemy.hitbox_x / 2, enemy.y - enemy.hitbox_y / 2))
 
 
     def draw_bullets(self, bullets: List[Bullet]):
         for bullet in bullets:
-            pygame.draw.circle(self.screen, Color.black, (bullet.position[0], bullet.position[1]), bullet.radius)
+            pygame.draw.circle(self.screen, Color.black, (bullet.x, bullet.y), bullet.radius)
 
 
     def draw_cursor(self, cursor: Cursor):
@@ -86,36 +86,27 @@ class Screen:
 
 
     def draw_player_hitbox(self, player: Player):
-        pygame.draw.rect(self.screen, (255, 0, 0), pygame.Rect(player.position[0] - player.hitbox[0]/2, player.position[1] - player.hitbox[1]/2, player.hitbox[0], player.hitbox[1]))
-        pygame.draw.circle(self.screen, (0, 0, 0), (player.position[0], player.position[1]), 10)
+        pygame.draw.rect(self.screen, (255, 0, 0), pygame.Rect(player.x - player.hitbox_x/2, player.y - player.hitbox_y/2, player.hitbox_x, player.hitbox_y))
+        pygame.draw.circle(self.screen, (0, 0, 0), (player.x, player.y), 10)
 
 
     def draw_enemy_hitbox(self, enemies: List[Enemy]):
         for enemy in enemies:
-            pygame.draw.rect(self.screen, (0, 255, 0), pygame.Rect(enemy.pos_x - enemy.hitbox[0]/2, enemy.pos_y - enemy.hitbox[1]/2, enemy.hitbox[0], enemy.hitbox[1]))
+            pygame.draw.rect(self.screen, (0, 255, 0), pygame.Rect(enemy.x - enemy.hitbox_x / 2, enemy.y - enemy.hitbox_y / 2, enemy.hitbox_x, enemy.hitbox_y))
 
 
     def draw_hp_bars(self, player: Player, enemies: List[Enemy]):  # funkcja do poprawy jak ujednolicimy koordynaty
-        bar_width = 60
-        bar_height = 5
         self.draw_health_bar(player)
-
         for enemy in enemies:
-            if enemy.health != enemy.max_hp:
-                bar_rect = pygame.Rect(enemy.pos_x - bar_width/2, enemy.pos_y - enemy.hitbox[1]/2 - 10, bar_width, bar_height)
-                enemy_health_percent = enemy.health/enemy.max_hp
-
-                pygame.draw.rect(self.screen, Color.red, bar_rect)
-                pygame.draw.rect(self.screen, Color.green, (bar_rect.x, enemy.pos_y - enemy.hitbox[1]/2 - 10, bar_width * enemy_health_percent, bar_height))
-
+            self.draw_health_bar(enemy)
 
 
     def draw_health_bar(self, entity):  # aktualnie dziala tylko na gracza bo rozne zapisywanie koordynatow
         bar_width = 60
         bar_height = 5
-        bar_rect = pygame.Rect(entity.position[0] - bar_width/2, entity.position[1] - entity.hitbox[1]/2 - 10, bar_width, bar_height)
-        entity_health_percent = entity.current_hp/entity.max_hp
+        bar_rect = pygame.Rect(entity.x - bar_width/2, entity.y - entity.hitbox_y/2 - 10, bar_width, bar_height)
+        entity_health_percent = entity.health/entity.max_hp
 
-        if entity.current_hp != entity.max_hp:
+        if entity.health != entity.max_hp:
             pygame.draw.rect(self.screen, Color.red, bar_rect)
-            pygame.draw.rect(self.screen, Color.green, (bar_rect.x, entity.position[1] - entity.hitbox[1]/2 - 10, bar_width*entity_health_percent, bar_height))
+            pygame.draw.rect(self.screen, Color.green, (bar_rect.x, entity.y - entity.hitbox_y/2 - 10, bar_width*entity_health_percent, bar_height))

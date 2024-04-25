@@ -27,10 +27,13 @@ def main():
     bg_music = Music(target_file=FilePaths.mp3_monday, volume=0.1, loop=True)
     bg_music.play()
 
+    bible = Music(target_file=FilePaths.mp3_bible, volume=1, loop=True)
+    bible.play()
+
     screen = Screen(screen_x=500, screen_y=500)
     background_gif = BackgroundGIF(gif_frames_folder=FilePaths.gif_monday_2, draw_frequency_in_ms=75)
     cursor = Cursor(FilePaths.png_shotgun_cursor)
-    player = Player(position=[250, 250], radius=10, speed=1, hitbox=(40, 52), max_hp=10)
+    player = Player(x=250, y=250, radius=10, speed=1, hitbox_x=40, hitbox_y=52, max_hp=10)
 
     weapon_counter = 0
     primary = Shotgun()
@@ -63,7 +66,7 @@ def main():
                 if not weapon.reloading:
                     if not weapon.shotCD: 
                         amongus_sfx.play()
-                        bullets = weapon.shoot(pos_x=player.position[0], pos_y=player.position[1], dest_x=mouse_x, dest_y=mouse_y, bullet_list=bullets)
+                        bullets = weapon.shoot(pos_x=player.x, pos_y=player.y, dest_x=mouse_x, dest_y=mouse_y, bullet_list=bullets)
 
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_LSHIFT:
@@ -72,8 +75,8 @@ def main():
                 if event.key == pygame.K_z:
                     Music(FilePaths.mp3_change_weapon, volume= 0.3).play()
                     weapon_counter += 1
-                    weapon = weapon_list[weapon_counter%len(weapon_list)]
-                    cursor = cursor_list[weapon_counter%len(cursor_list)]
+                    weapon = weapon_list[weapon_counter % len(weapon_list)]
+                    cursor = cursor_list[weapon_counter % len(cursor_list)]
 
                 if event.key == pygame.K_r and weapon.reloading is False and weapon.current_magazine != weapon.max_magazine:
                     weapon.reload()
@@ -98,10 +101,11 @@ def main():
                                cursor=cursor,
                                game_time_in_ms=game_time_in_ms)
 
-        enemy_spawn_time, enemies = EnemyUtils.generate_enemies(enemy_spawn_cd=enemy_spawn_cd,
-                                    enemy_spawn_location_list=enemy_spawn_location_list,
-                                    enemy_spawn_time=enemy_spawn_time,
-                                    enemies=enemies)
+        enemy_spawn_time, enemies = EnemyUtils.generate_enemies(
+            enemy_spawn_cd=enemy_spawn_cd,
+            enemy_spawn_location_list=enemy_spawn_location_list,
+            enemy_spawn_time=enemy_spawn_time,
+            enemies=enemies)
 
 
     pygame.quit()

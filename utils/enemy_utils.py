@@ -29,7 +29,7 @@ class EnemyUtils:
 
     @staticmethod
     def move_enemy(enemy: Enemy, player: Player) -> Enemy:
-        return enemy.move(player.position[0], player.position[1])
+        return enemy.move(player.x, player.y)
 
 
     @staticmethod
@@ -45,7 +45,7 @@ class EnemyUtils:
                 enemies.append(BlackAmogus(spawn_coords[0], spawn_coords[1]))
             if enemytype == 2:
                 enemies.append(Goku(spawn_coords[0], spawn_coords[1]))
-            enemy_spawn_time  = time.time()
+            enemy_spawn_time = time.time()
         return enemy_spawn_time, enemies
     
     @staticmethod
