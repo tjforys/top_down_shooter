@@ -9,6 +9,7 @@ from objects.cursor import Cursor
 from objects.enemy import Enemy
 from objects.gif_background import BackgroundGIF
 from objects.player import Player
+from user_options import UserOptions
 
 
 class Screen:
@@ -30,14 +31,18 @@ class Screen:
 
 
     def draw_everything(self, player: Player, bullets: List[Bullet], enemies: List[Enemy], background_gif: BackgroundGIF, game_time_in_ms: int, cursor: Cursor):
-        self.fill_screen(Color.white)
-        self.draw_background_gif_pic(background_gif)
-        self.show_current_time(game_time_in_ms)
-        self.draw_cursor(cursor)
-        self.draw_enemies(enemies)
-        self.draw_player(player)
+        if UserOptions.disable_brain_rot:
+            self.fill_screen(Color.gray)
+            self.draw_enemy_hitbox(enemies)
+            self.draw_player_hitbox(player)
+        else:
+            self.draw_background_gif_pic(background_gif)
+            self.draw_enemies(enemies)
+            self.draw_player(player)
         self.draw_hp_bars(player, enemies)
         self.draw_bullets(bullets)
+        self.draw_cursor(cursor)
+        self.show_current_time(game_time_in_ms)
  
         pygame.display.flip()
 
