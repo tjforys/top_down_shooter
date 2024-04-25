@@ -16,19 +16,20 @@ from objects.weapon import Shotgun
 from classes.file_paths import FilePaths
 from utils.bullet_utils import BulletUtils
 from utils.enemy_utils import EnemyUtils
+from user_options import UserOptions
 
 
 def main():
     running = True
 
     pygame.mouse.set_visible(False)
+    if UserOptions.game_sounds:
+        amongus_sfx = Music(target_file=FilePaths.mp3_amongus, volume=0.05, loop=False)
+        bg_music = Music(target_file=FilePaths.mp3_monday, volume=0.1, loop=True)
+        bg_music.play()
 
-    amongus_sfx = Music(target_file=FilePaths.mp3_amongus, volume=0.05, loop=False)
-    bg_music = Music(target_file=FilePaths.mp3_monday, volume=0.1, loop=True)
-    bg_music.play()
-
-    bible = Music(target_file=FilePaths.mp3_bible, volume=1, loop=True)
-    bible.play()
+        bible = Music(target_file=FilePaths.mp3_bible, volume=1, loop=True)
+        bible.play()
 
     screen = Screen(screen_x=500, screen_y=500)
     background_gif = BackgroundGIF(gif_frames_folder=FilePaths.gif_monday_2, draw_frequency_in_ms=75)
@@ -65,7 +66,8 @@ def main():
 
                 if not weapon.reloading:
                     if not weapon.shotCD: 
-                        amongus_sfx.play()
+                        if UserOptions.game_sounds:
+                            amongus_sfx.play()
                         bullets = weapon.shoot(pos_x=player.x, pos_y=player.y, dest_x=mouse_x, dest_y=mouse_y, bullet_list=bullets)
 
             if event.type == pygame.KEYDOWN:
@@ -73,7 +75,8 @@ def main():
                     player.dash(dash_distance=100, area_x=screen.x, area_y=screen.y)
 
                 if event.key == pygame.K_z:
-                    Music(FilePaths.mp3_change_weapon, volume= 0.3).play()
+                    if UserOptions.game_sounds:
+                        Music(FilePaths.mp3_change_weapon, volume= 0.3).play()
                     weapon_counter += 1
                     weapon = weapon_list[weapon_counter % len(weapon_list)]
                     cursor = cursor_list[weapon_counter % len(cursor_list)]
@@ -92,7 +95,8 @@ def main():
         enemies = EnemyUtils.handle_enemies(enemies=enemies, bullets=hit_bullets, player=player)
 
         # Draw a solid blue circle in the center
-        EnemyUtils.play_enemy_sounds(enemies=enemies)
+        if UserOptions.game_sounds:
+            EnemyUtils.play_enemy_sounds(enemies=enemies)
 
         screen.draw_everything(player=player,
                                enemies=enemies,
@@ -107,7 +111,7 @@ def main():
             enemy_spawn_time=enemy_spawn_time,
             enemies=enemies)
 
-
+        time.sleep(0.005)
     pygame.quit()
 
 
