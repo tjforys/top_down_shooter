@@ -30,6 +30,17 @@ class Screen:
         self.screen.blit(text_surface, text_rect)
 
 
+    def show_game_over(self):
+        text_surface = self.font.render(f'GAME OVER', False, Color.white)
+        text_rect = text_surface.get_rect(center=(self.x/2, self.y/2))
+        self.screen.blit(text_surface, text_rect)
+        pygame.display.flip()
+        while True:
+            for event in pygame.event.get():
+                if event.type == pygame.MOUSEBUTTONDOWN or event.type == pygame.QUIT:
+                    exit()
+
+
     def draw_everything(self, player: Player, bullets: List[Bullet], enemies: List[Enemy], background_gif: BackgroundGIF, game_time_in_ms: int, cursor: Cursor):
         if UserOptions.disable_brain_rot:
             self.fill_screen(Color.gray)

@@ -16,6 +16,7 @@ from objects.weapon import Shotgun
 from classes.file_paths import FilePaths
 from utils.bullet_utils import BulletUtils
 from utils.enemy_utils import EnemyUtils
+from utils.player_utils import PlayerUtils
 from user_options import UserOptions
 
 
@@ -110,6 +111,8 @@ def main():
             enemy_spawn_location_list=enemy_spawn_location_list,
             enemy_spawn_time=enemy_spawn_time,
             enemies=enemies)
+        
+        PlayerUtils.manageEnemyCollision(player=player, enemies=enemies, screen=screen)
 
         time.sleep(0.005)
     pygame.quit()

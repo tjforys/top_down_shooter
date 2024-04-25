@@ -21,6 +21,7 @@ class Enemy:
         self.music_list = music_list
         self.last_music_time = 0
         self.musicCD = musicCD
+        self.rect = pygame.Rect(self.x - self.hitbox_x/2, self.y - self.hitbox_y/2, self.hitbox_x, self.hitbox_y)
 
 
     def move(self, player_x: int, player_y: int):
@@ -35,13 +36,11 @@ class Enemy:
 
         self.x += speed_x
         self.y += speed_y
+        self.rect = pygame.Rect(self.x - self.hitbox_x/2, self.y - self.hitbox_y/2, self.hitbox_x, self.hitbox_y)
 
 
     def is_hit(self, bullet: Bullet):
-        if bullet.x - bullet.radius + self.hitbox_x/2 < self.x + self.hitbox_x and bullet.x + self.hitbox_x/2 + bullet.radius > self.x:
-            if bullet.y - bullet.radius + self.hitbox_y/2 < self.y + self.hitbox_y and bullet.y + self.hitbox_y/2 + bullet.radius > self.y:
-                return True          
-        return False
+        return self.rect.colliderect(bullet.rect)
     
 
     def play_random_sound(self):
@@ -55,7 +54,6 @@ class Enemy:
         if self.health < 1:
             if UserOptions.game_sounds:
                 Music(FilePaths.mp3_enemy_death, volume=0.3).play()
-            del self
 
 
 class BlackAmogus(Enemy):
