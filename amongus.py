@@ -45,6 +45,7 @@ def main():
     weapon = primary
 
     bullets: List[Bullet] = []
+    enemy_bullets: List[Bullet] = []
     enemies: List[Enemy] = []
     enemy_spawn_cd = 5
     enemy_spawn_time = 0
@@ -88,6 +89,9 @@ def main():
             if event.type == pygame.QUIT:
                 running = False
 
+        enemy_bullets = EnemyUtils.shoot_bullets(enemies=enemies, enemy_bullets=enemy_bullets, player=player)
+
+        enemy_bullets = BulletUtils.handle_bullets(screen=screen, bullets=enemy_bullets)
 
         bullets = BulletUtils.handle_bullets(screen, bullets)
         hit_bullets = BulletUtils.get_hit_bullets(bullets=bullets, enemies=enemies)
@@ -104,7 +108,8 @@ def main():
                                bullets=bullets,
                                background_gif=background_gif,
                                cursor=cursor,
-                               game_time_in_ms=game_time_in_ms)
+                               game_time_in_ms=game_time_in_ms,
+                               enemy_bullets=enemy_bullets)
 
         enemy_spawn_time, enemies = EnemyUtils.generate_enemies(
             enemy_spawn_cd=enemy_spawn_cd,
@@ -113,8 +118,9 @@ def main():
             enemies=enemies)
         
         PlayerUtils.manageEnemyCollision(player=player, enemies=enemies, screen=screen)
-
-        time.sleep(0.005)
+        enemy_bullets = PlayerUtils.manageEnemyBulletsCollistion(player=player, enemy_bullets=enemy_bullets, screen=screen)
+        if UserOptions.disable_brain_rot:
+            time.sleep(0.005)
     pygame.quit()
 
 

@@ -5,6 +5,7 @@ import random
 from classes.file_paths import FilePaths
 from objects.bullet import Bullet
 from objects.music import Music
+from objects.player import Player
 import time
 from user_options import UserOptions
 
@@ -91,3 +92,50 @@ class Goku(Enemy):
         )
         goku = pygame.transform.scale(sprite, (self.hitbox_x, self.hitbox_y))
         self.sprite = goku
+
+
+class Pasterz(Enemy):
+    def __init__(self, pos_x, pos_y):
+        sprite = pygame.image.load(FilePaths.png_school_shooter).convert_alpha()
+        image_proportions = sprite.get_height()/sprite.get_width()       
+        super().__init__(
+            max_hp=7,
+            pos_x=pos_x,
+            pos_y=pos_y,
+            speed=0.3,
+            hitbox_x=40,
+            hitbox_y=40*image_proportions,
+            music_list=[Music(target_file=FilePaths.mp3_black_impostor, volume=0.05)],
+            musicCD=5
+        )
+        self.shoot_dist = 150
+        self.shoot_cd = 3
+        self.shoot_time = 0
+        self.in_range = False
+        pasterz = pygame.transform.scale(sprite, (self.hitbox_x, self.hitbox_y))
+        self.sprite = pasterz
+
+    def move(self, player_x: int, player_y: int):
+        whole_distance = math.dist((self.x, self.y), (player_x, player_y))
+        if whole_distance == 0: 
+            whole_distance = 1
+        distance_x = player_x - self.x
+        distance_y = player_y - self.y
+
+        speed_x = self.speed*distance_x/whole_distance
+        speed_y = self.speed*distance_y/whole_distance
+        if whole_distance > self.shoot_dist:
+            self.x += speed_x
+            self.y += speed_y
+            self.in_range = False
+        else:
+            self.in_range = True
+
+        self.rect = pygame.Rect(self.x - self.hitbox_x/2, self.y - self.hitbox_y/2, self.hitbox_x, self.hitbox_y)
+
+    def shoot(self, player: Player, enemy_bullet_list: List[Bullet]):
+        if self.in_range and time.time() - self.shoot_time > self.shoot_cd:
+            enemy_bullet_list.append(Bullet(self.x, self.y, player.x, player.y, speed=0.5, radius=10))
+            self.shoot_time = time.time()
+        return enemy_bullet_list
+        

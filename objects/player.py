@@ -59,10 +59,10 @@ class Player:
 
         self.x, self.y = Movement.put_back_in_arena_if_outside(area_x, area_y, self.x, self.y)
 
-    def take_damage(self):
+    def take_damage(self, screen):
         if time.time() - self.i_frame_time > self.i_frames:
             self.health -= 1
             self.i_frame_time = time.time()
             if self.health < 1:
-                self.alive = False
+                screen.show_game_over()
             
