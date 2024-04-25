@@ -4,6 +4,7 @@ import time
 import random
 
 from objects.music import Music
+from user_options import UserOptions
 
 
 class Weapon:
@@ -41,7 +42,8 @@ class Weapon:
         if not self.reloading:
             self.reload_start_time = time.time()
             self.reloading = True
-            Music(FilePaths.mp3_reload, volume=0.3).play()
+            if UserOptions.game_sounds:
+                Music(FilePaths.mp3_reload, volume=0.3).play()
         if self.reloading and time.time() - self.reload_start_time > self.reload_time:
             self.current_magazine = self.max_magazine
             self.reloading = False

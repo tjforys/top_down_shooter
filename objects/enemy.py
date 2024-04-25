@@ -6,6 +6,7 @@ from classes.file_paths import FilePaths
 from objects.bullet import Bullet
 from objects.music import Music
 import time
+from user_options import UserOptions
 
 
 class Enemy:
@@ -52,7 +53,8 @@ class Enemy:
     def take_damage(self, amount: float):
         self.health -= amount
         if self.health < 1:
-            Music(FilePaths.mp3_enemy_death, volume=0.3).play()
+            if UserOptions.game_sounds:
+                Music(FilePaths.mp3_enemy_death, volume=0.3).play()
             del self
 
 
