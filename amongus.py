@@ -9,7 +9,7 @@ from objects.bullet import Bullet
 from objects.gif_background import BackgroundGIF
 from objects.player import Player
 from objects.screen import Screen
-from objects.enemy import Enemy
+from objects.enemy import Enemy, Pasterz
 from objects.weapon import Glock
 from objects.weapon import Shotgun
 
@@ -50,6 +50,7 @@ def main():
     enemy_spawn_cd = 5
     enemy_spawn_time = 0
     enemy_spawn_location_list = [(0, 0), (1000, 1000), (1000, 1500), (1000, 500), (-500, 1000)]
+    shooting_enemy_types = [Pasterz]
 
     while running:
         game_time_in_ms = pygame.time.get_ticks()
@@ -89,7 +90,7 @@ def main():
             if event.type == pygame.QUIT:
                 running = False
 
-        enemy_bullets = EnemyUtils.shoot_bullets(enemies=enemies, enemy_bullets=enemy_bullets, player=player)
+        enemy_bullets = EnemyUtils.shoot_bullets(enemies=enemies, enemy_bullets=enemy_bullets, player=player, shooting_enemy_types=shooting_enemy_types)
 
         enemy_bullets = BulletUtils.handle_bullets(screen=screen, bullets=enemy_bullets)
 
@@ -117,8 +118,8 @@ def main():
             enemy_spawn_time=enemy_spawn_time,
             enemies=enemies)
         
-        PlayerUtils.manageEnemyCollision(player=player, enemies=enemies, screen=screen)
-        enemy_bullets = PlayerUtils.manageEnemyBulletsCollistion(player=player, enemy_bullets=enemy_bullets, screen=screen)
+        PlayerUtils.manage_enemy_collision(player=player, enemies=enemies, screen=screen)
+        enemy_bullets = PlayerUtils.manage_enemy_bullets_collistion(player=player, enemy_bullets=enemy_bullets, screen=screen)
         if UserOptions.disable_brain_rot:
             time.sleep(0.005)
     pygame.quit()

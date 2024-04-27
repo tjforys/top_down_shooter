@@ -57,11 +57,8 @@ class EnemyUtils:
 
 
     @staticmethod
-    def shoot_bullets(enemies: List[Enemy], enemy_bullets: List[Bullet], player: Player):
+    def shoot_bullets(enemies: List[Enemy], enemy_bullets: List[Bullet], player: Player, shooting_enemy_types: List):
         for enemy in enemies:
-            try:
+            if type(enemy) in shooting_enemy_types:
                 enemy_bullets = enemy.shoot(player, enemy_bullets)
-            except Exception:
-                continue
         return enemy_bullets
-
