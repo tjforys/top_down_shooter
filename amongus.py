@@ -118,8 +118,8 @@ def main():
             enemy_spawn_time=enemy_spawn_time,
             enemies=enemies)
         
-        PlayerUtils.manage_enemy_collision(player=player, enemies=enemies, screen=screen)
-        enemy_bullets = PlayerUtils.manage_enemy_bullets_collistion(player=player, enemy_bullets=enemy_bullets, screen=screen)
+        PlayerUtils.manage_enemy_collision(player=player, enemies=enemies)
+        enemy_bullets = PlayerUtils.manage_enemy_bullets_collistion(player=player, enemy_bullets=enemy_bullets)
         if UserOptions.disable_brain_rot:
             time.sleep(0.005)
     pygame.quit()

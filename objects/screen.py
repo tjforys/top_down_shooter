@@ -55,6 +55,9 @@ class Screen:
         self.draw_enemy_bullets(enemy_bullets=enemy_bullets)
         self.draw_cursor(cursor)
         self.show_current_time(game_time_in_ms)
+
+        if player.health <= 0:
+            self.show_game_over()
  
         pygame.display.flip()
 
