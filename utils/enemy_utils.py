@@ -1,5 +1,6 @@
 from typing import List
 
+from constants import Constants
 from objects.bullet import Bullet
 from objects.enemy import Enemy, BlackAmogus, Goku, Pasterz
 from objects.player import Player
@@ -57,8 +58,8 @@ class EnemyUtils:
 
 
     @staticmethod
-    def shoot_bullets(enemies: List[Enemy], enemy_bullets: List[Bullet], player: Player, shooting_enemy_types: List):
+    def shoot_bullets(enemies: List[Enemy], enemy_bullets: List[Bullet], player: Player):
         for enemy in enemies:
-            if type(enemy) in shooting_enemy_types:
+            if type(enemy) in Constants.shooting_enemy_types:
                 enemy_bullets = enemy.shoot(player, enemy_bullets)
         return enemy_bullets

@@ -50,7 +50,6 @@ def main():
     enemy_spawn_cd = 5
     enemy_spawn_time = 0
     enemy_spawn_location_list = [(0, 0), (1000, 1000), (1000, 1500), (1000, 500), (-500, 1000)]
-    shooting_enemy_types = [Pasterz]
 
     while running:
         game_time_in_ms = pygame.time.get_ticks()
@@ -90,7 +89,7 @@ def main():
             if event.type == pygame.QUIT:
                 running = False
 
-        enemy_bullets = EnemyUtils.shoot_bullets(enemies=enemies, enemy_bullets=enemy_bullets, player=player, shooting_enemy_types=shooting_enemy_types)
+        enemy_bullets = EnemyUtils.shoot_bullets(enemies=enemies, enemy_bullets=enemy_bullets, player=player)
 
         enemy_bullets = BulletUtils.handle_bullets(screen=screen, bullets=enemy_bullets)
 
