@@ -82,9 +82,7 @@ class Screen:
             last_draw_time_to_update = True
 
         pic_to_draw = gif.frames_list[gif.current_frame % len(gif.frames_list)]
-        cat = pygame.image.load(f"{gif.frames_folder}\{pic_to_draw}").convert()
-        cat = pygame.transform.scale(cat, (self.x, self.y))
-        self.screen.blit(cat, (0, 0))
+        self.screen.blit(pic_to_draw, (0, 0))
 
         if last_draw_time_to_update:
             gif.last_draw_time_in_ms = pygame.time.get_ticks()

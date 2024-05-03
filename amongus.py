@@ -32,8 +32,8 @@ def main():
         bible = Music(target_file=FilePaths.mp3_bible, volume=1, loop=True)
         bible.play()
 
-    screen = Screen(screen_x=500, screen_y=500)
-    background_gif = BackgroundGIF(gif_frames_folder=FilePaths.gif_monday_2, draw_frequency_in_ms=75)
+    screen = Screen(screen_x=800, screen_y=800)
+    background_gif = BackgroundGIF(gif_frames_folder=FilePaths.gif_monday_2, draw_frequency_in_ms=75, res_x=screen.x, res_y=screen.y)
     cursor = Cursor(FilePaths.png_shotgun_cursor)
     player = Player(x=250, y=250, radius=10, speed=1, hitbox_x=40, hitbox_y=52, max_hp=10)
 
