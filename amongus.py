@@ -9,13 +9,14 @@ from objects.bullet import Bullet
 from objects.gif_background import BackgroundGIF
 from objects.player import Player
 from objects.screen import Screen
-from objects.enemy import Enemy
+from objects.enemy import Enemy, Pasterz
 from objects.weapon import Glock
 from objects.weapon import Shotgun
 
 from classes.file_paths import FilePaths
 from utils.bullet_utils import BulletUtils
 from utils.enemy_utils import EnemyUtils
+from utils.player_utils import PlayerUtils
 from user_options import UserOptions
 
 
@@ -44,6 +45,7 @@ def main():
     weapon = primary
 
     bullets: List[Bullet] = []
+    enemy_bullets: List[Bullet] = []
     enemies: List[Enemy] = []
     enemy_spawn_cd = 5
     enemy_spawn_time = 0
@@ -87,6 +89,9 @@ def main():
             if event.type == pygame.QUIT:
                 running = False
 
+        enemy_bullets = EnemyUtils.shoot_bullets(enemies=enemies, enemy_bullets=enemy_bullets, player=player)
+
+        enemy_bullets = BulletUtils.handle_bullets(screen=screen, bullets=enemy_bullets)
 
         bullets = BulletUtils.handle_bullets(screen, bullets)
         hit_bullets = BulletUtils.get_hit_bullets(bullets=bullets, enemies=enemies)
@@ -103,15 +108,19 @@ def main():
                                bullets=bullets,
                                background_gif=background_gif,
                                cursor=cursor,
-                               game_time_in_ms=game_time_in_ms)
+                               game_time_in_ms=game_time_in_ms,
+                               enemy_bullets=enemy_bullets)
 
         enemy_spawn_time, enemies = EnemyUtils.generate_enemies(
             enemy_spawn_cd=enemy_spawn_cd,
             enemy_spawn_location_list=enemy_spawn_location_list,
             enemy_spawn_time=enemy_spawn_time,
             enemies=enemies)
-
-        time.sleep(0.005)
+        
+        PlayerUtils.manage_enemy_collision(player=player, enemies=enemies)
+        enemy_bullets = PlayerUtils.manage_enemy_bullets_collistion(player=player, enemy_bullets=enemy_bullets)
+        if UserOptions.disable_brain_rot:
+            time.sleep(0.005)
     pygame.quit()
 
 
