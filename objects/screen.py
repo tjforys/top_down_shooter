@@ -41,7 +41,7 @@ class Screen:
                     exit()
 
 
-    def draw_everything(self, player: Player, bullets: List[Bullet], enemies: List[Enemy], background_gif: BackgroundGIF, game_time_in_ms: int, cursor: Cursor):
+    def draw_everything(self, player: Player, bullets: List[Bullet], enemies: List[Enemy], background_gif: BackgroundGIF, game_time_in_ms: int, cursor: Cursor, enemy_bullets: List[Bullet]):
         if UserOptions.disable_brain_rot:
             self.fill_screen(Color.gray)
             self.draw_enemy_hitbox(enemies)
@@ -52,8 +52,12 @@ class Screen:
             self.draw_player(player)
         self.draw_hp_bars(player, enemies)
         self.draw_bullets(bullets)
+        self.draw_enemy_bullets(enemy_bullets=enemy_bullets)
         self.draw_cursor(cursor)
         self.show_current_time(game_time_in_ms)
+
+        if player.health <= 0:
+            self.show_game_over()
  
         pygame.display.flip()
 
@@ -94,6 +98,11 @@ class Screen:
     def draw_bullets(self, bullets: List[Bullet]):
         for bullet in bullets:
             pygame.draw.circle(self.screen, Color.black, (bullet.x, bullet.y), bullet.radius)
+
+
+    def draw_enemy_bullets(self, enemy_bullets: List[Bullet]):
+        for bullet in enemy_bullets:
+            pygame.draw.circle(self.screen, Color.blue, (bullet.x, bullet.y), bullet.radius)
 
 
     def draw_cursor(self, cursor: Cursor):

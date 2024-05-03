@@ -63,6 +63,4 @@ class Player:
         if time.time() - self.i_frame_time > self.i_frames:
             self.health -= 1
             self.i_frame_time = time.time()
-            if self.health < 1:
-                self.alive = False
             
