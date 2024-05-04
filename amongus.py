@@ -40,7 +40,7 @@ def main():
     weapon_counter = 0
     weapon_list = [Shotgun(), Glock()]
     weapon = weapon_list[0]
-    cursor_list = [Cursor(FilePaths.png_glock_cursor), Cursor(FilePaths.png_shotgun_cursor)]
+    cursor_list = [Cursor(FilePaths.png_shotgun_cursor), Cursor(FilePaths.png_glock_cursor)]
 
     bullets: List[Bullet] = []
     enemy_bullets: List[Bullet] = []
