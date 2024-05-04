@@ -139,8 +139,5 @@ class Screen:
 
     def draw_gun_ammo(self, current_weapon: Weapon):
         for i in range(current_weapon.current_magazine):
-            ammo = pygame.Rect(self.x - 20 - i*20,
-                               self.y - 50,
-                               10,
-                                30)
+            ammo = pygame.Rect(self.x - 20 - i*20, self.y - 50, 10, 30)
             pygame.draw.rect(self.screen, Color.black, ammo)
