@@ -2,6 +2,7 @@ import pygame
 import time
 from classes.direction_enums import Directions
 from classes.file_paths import FilePaths
+from constants import Constants
 from utils.movement_utils import Movement
 
 
@@ -20,6 +21,7 @@ class Player:
         self.i_frame_time = 0
         self.i_frames = 1
         self.alive = True
+        self.last_movement_time_in_miliseconds = 0
 
         amongus = pygame.image.load(FilePaths.png_amogus).convert_alpha()
         amongus = pygame.transform.scale(amongus, (self.hitbox_x, self.hitbox_y))
@@ -27,23 +29,25 @@ class Player:
 
     
     def move(self, area_x, area_y):
-        keys = pygame.key.get_pressed()
-        if keys[pygame.K_a]:
-            self.x -= self._speed
-            self.rotation = Directions.LEFT
+        if pygame.time.get_ticks() - Constants.time_between_movement_in_miliseconds > self.last_movement_time_in_miliseconds:
+            keys = pygame.key.get_pressed()
+            if keys[pygame.K_a]:
+                self.x -= self._speed
+                self.rotation = Directions.LEFT
 
-        if keys[pygame.K_w]:
-            self.y -= self._speed
+            if keys[pygame.K_w]:
+                self.y -= self._speed
 
-        if keys[pygame.K_s]:
-            self.y += self._speed
+            if keys[pygame.K_s]:
+                self.y += self._speed
 
-        if keys[pygame.K_d]:
-            self.x += self._speed
-            self.rotation = Directions.RIGHT
+            if keys[pygame.K_d]:
+                self.x += self._speed
+                self.rotation = Directions.RIGHT
 
-        self.x, self.y = Movement.put_back_in_arena_if_outside(area_x, area_y, self.x, self.y)
-        self.rect = pygame.Rect(self.x - self.hitbox_x/2, self.y - self.hitbox_y/2, self.hitbox_x, self.hitbox_y)
+            self.x, self.y = Movement.put_back_in_arena_if_outside(area_x, area_y, self.x, self.y)
+            self.rect = pygame.Rect(self.x - self.hitbox_x/2, self.y - self.hitbox_y/2, self.hitbox_x, self.hitbox_y)
+            self.last_movement_time_in_miliseconds = pygame.time.get_ticks()
 
 
     def dash(self, dash_distance, area_x, area_y):

@@ -3,6 +3,7 @@ from typing import List
 import pygame
 import random
 from classes.file_paths import FilePaths
+from constants import Constants
 from objects.bullet import Bullet
 from objects.music import Music
 from objects.player import Player
@@ -23,21 +24,24 @@ class Enemy:
         self.last_music_time = 0
         self.musicCD = musicCD
         self.rect = pygame.Rect(self.x - self.hitbox_x/2, self.y - self.hitbox_y/2, self.hitbox_x, self.hitbox_y)
+        self.last_movement_time_in_miliseconds = 0
 
 
     def move(self, player_x: int, player_y: int):
-        whole_distance = math.dist((self.x, self.y), (player_x, player_y))
-        if whole_distance == 0: 
-            whole_distance = 1
-        distance_x = player_x - self.x
-        distance_y = player_y - self.y
+        if pygame.time.get_ticks() - Constants.time_between_movement_in_miliseconds > self.last_movement_time_in_miliseconds:
+            whole_distance = math.dist((self.x, self.y), (player_x, player_y))
+            if whole_distance == 0:
+                whole_distance = 1
+            distance_x = player_x - self.x
+            distance_y = player_y - self.y
 
-        speed_x = self.speed*distance_x/whole_distance
-        speed_y = self.speed*distance_y/whole_distance
+            speed_x = self.speed*distance_x/whole_distance
+            speed_y = self.speed*distance_y/whole_distance
 
-        self.x += speed_x
-        self.y += speed_y
-        self.rect = pygame.Rect(self.x - self.hitbox_x/2, self.y - self.hitbox_y/2, self.hitbox_x, self.hitbox_y)
+            self.x += speed_x
+            self.y += speed_y
+            self.rect = pygame.Rect(self.x - self.hitbox_x/2, self.y - self.hitbox_y/2, self.hitbox_x, self.hitbox_y)
+            self.last_movement_time_in_miliseconds = pygame.time.get_ticks()
 
 
     def is_hit(self, bullet: Bullet):
@@ -116,22 +120,24 @@ class Pasterz(Enemy):
         self.sprite = pasterz
 
     def move(self, player_x: int, player_y: int):
-        whole_distance = math.dist((self.x, self.y), (player_x, player_y))
-        if whole_distance == 0: 
-            whole_distance = 1
-        distance_x = player_x - self.x
-        distance_y = player_y - self.y
+        if pygame.time.get_ticks() - Constants.time_between_movement_in_miliseconds > self.last_movement_time_in_miliseconds:
+            whole_distance = math.dist((self.x, self.y), (player_x, player_y))
+            if whole_distance == 0:
+                whole_distance = 1
+            distance_x = player_x - self.x
+            distance_y = player_y - self.y
 
-        speed_x = self.speed*distance_x/whole_distance
-        speed_y = self.speed*distance_y/whole_distance
-        if whole_distance > self.shoot_dist:
-            self.x += speed_x
-            self.y += speed_y
-            self.in_range = False
-        else:
-            self.in_range = True
+            speed_x = self.speed*distance_x/whole_distance
+            speed_y = self.speed*distance_y/whole_distance
+            if whole_distance > self.shoot_dist:
+                self.x += speed_x
+                self.y += speed_y
+                self.in_range = False
+            else:
+                self.in_range = True
 
-        self.rect = pygame.Rect(self.x - self.hitbox_x/2, self.y - self.hitbox_y/2, self.hitbox_x, self.hitbox_y)
+            self.rect = pygame.Rect(self.x - self.hitbox_x/2, self.y - self.hitbox_y/2, self.hitbox_x, self.hitbox_y)
+            self.last_movement_time_in_miliseconds = pygame.time.get_ticks()
 
     def shoot(self, player: Player, enemy_bullet_list: List[Bullet]):
         if self.in_range and time.time() - self.shoot_time > self.shoot_cd:
