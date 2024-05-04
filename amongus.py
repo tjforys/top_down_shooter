@@ -10,7 +10,7 @@ from objects.gif_background import BackgroundGIF
 from objects.player import Player
 from objects.screen import Screen
 from objects.enemy import Enemy
-from objects.weapon import Glock
+from objects.weapon import Glock, ShootType, AR15
 from objects.weapon import Shotgun
 
 from classes.file_paths import FilePaths
@@ -38,9 +38,9 @@ def main():
     player = Player(x=250, y=250, radius=10, speed=1, hitbox_x=40, hitbox_y=52, max_hp=10)
 
     weapon_counter = 0
-    weapon_list = [Shotgun(), Glock()]
+    weapon_list = [Shotgun(), Glock(), AR15()]
     weapon = weapon_list[0]
-    cursor_list = [Cursor(FilePaths.png_shotgun_cursor), Cursor(FilePaths.png_glock_cursor)]
+    cursor_list = [Cursor(FilePaths.png_shotgun_cursor), Cursor(FilePaths.png_glock_cursor), Cursor(FilePaths.png_ar15_cursor)]
 
     bullets: List[Bullet] = []
     enemy_bullets: List[Bullet] = []
@@ -54,21 +54,18 @@ def main():
 
         player.move(screen.x, screen.y)
 
+        if weapon.shoot_type == ShootType.AUTOMATIC:
+            if pygame.mouse.get_pressed()[0]:
+                if weapon.can_weapon_shoot():
+                    bullets = weapon.shoot(pos_x=player.x, pos_y=player.y, bullet_list=bullets)
+
         for event in pygame.event.get():
+            pygame.mouse.get_pressed()
             if event.type == pygame.MOUSEBUTTONDOWN:
-                mouse_x, mouse_y = pygame.mouse.get_pos()
-
-                if weapon.reloading:
-                    weapon.reload()
-
-                if time.time() - weapon.last_shot_time > weapon.shoot_cd:
-                    weapon.shotCD = False
-
-                if not weapon.reloading:
-                    if not weapon.shotCD:
-                        if UserOptions.game_sounds:
-                            amongus_sfx.play()
-                        bullets = weapon.shoot(pos_x=player.x, pos_y=player.y, dest_x=mouse_x, dest_y=mouse_y, bullet_list=bullets)
+                if weapon.shoot_type == ShootType.MANUAL:
+                    if event.button == 1:  # to left-click
+                        if weapon.can_weapon_shoot():
+                            bullets = weapon.shoot(pos_x=player.x, pos_y=player.y, bullet_list=bullets)
 
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_LSHIFT:
@@ -82,7 +79,7 @@ def main():
                     cursor = cursor_list[weapon_counter % len(cursor_list)]
 
                 if event.key == pygame.K_r and weapon.reloading is False and weapon.current_magazine != weapon.max_magazine:
-                    weapon.reload()
+                    weapon.start_reload()
 
             if event.type == pygame.QUIT:
                 running = False
