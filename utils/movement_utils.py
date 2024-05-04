@@ -11,3 +11,16 @@ class Movement:
             obj_y = area_y
 
         return obj_x, obj_y
+
+
+    @staticmethod
+    def is_inside_arena(area_x, area_y, obj_x, obj_y) -> bool:
+        if obj_x < area_x:
+            return True
+        if obj_x > 0:
+            return True
+        if obj_y < area_y:
+            return True
+        if obj_y > 0:
+            return True
+        return False

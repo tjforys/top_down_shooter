@@ -1,15 +1,12 @@
 from objects.player import Player
-from objects.enemy import Enemy
+from objects.enemy import Enemy, Michael
 from objects.screen import Screen
 from objects.bullet import Bullet
 from typing import List
 
 
 class PlayerUtils:
-    @staticmethod
-    def manage_enemy_collision(player: Player, enemies: List[Enemy]):
-        if player.rect.collideobjects([enemy.rect for enemy in enemies]):
-            player.take_damage()
+
 
 
     @staticmethod
