@@ -9,6 +9,7 @@ from objects.cursor import Cursor
 from objects.enemy import Enemy
 from objects.gif_background import BackgroundGIF
 from objects.player import Player
+from objects.weapon import Weapon
 from user_options import UserOptions
 
 
@@ -41,7 +42,7 @@ class Screen:
                     exit()
 
 
-    def draw_everything(self, player: Player, bullets: List[Bullet], enemies: List[Enemy], background_gif: BackgroundGIF, game_time_in_ms: int, cursor: Cursor, enemy_bullets: List[Bullet]):
+    def draw_everything(self, player: Player, weapon: Weapon, bullets: List[Bullet], enemies: List[Enemy], background_gif: BackgroundGIF, game_time_in_ms: int, cursor: Cursor, enemy_bullets: List[Bullet]):
         if UserOptions.disable_brain_rot:
             self.fill_screen(Color.gray)
             self.draw_enemy_hitbox(enemies)
@@ -55,6 +56,7 @@ class Screen:
         self.draw_enemy_bullets(enemy_bullets=enemy_bullets)
         self.draw_cursor(cursor)
         self.show_current_time(game_time_in_ms)
+        self.draw_gun_ammo(weapon)
 
         if player.health <= 0:
             self.show_game_over()
@@ -82,9 +84,7 @@ class Screen:
             last_draw_time_to_update = True
 
         pic_to_draw = gif.frames_list[gif.current_frame % len(gif.frames_list)]
-        cat = pygame.image.load(f"{gif.frames_folder}\{pic_to_draw}").convert()
-        cat = pygame.transform.scale(cat, (self.x, self.y))
-        self.screen.blit(cat, (0, 0))
+        self.screen.blit(pic_to_draw, (0, 0))
 
         if last_draw_time_to_update:
             gif.last_draw_time_in_ms = pygame.time.get_ticks()
@@ -135,3 +135,9 @@ class Screen:
         if entity.health != entity.max_hp:
             pygame.draw.rect(self.screen, Color.red, bar_rect)
             pygame.draw.rect(self.screen, Color.green, (bar_rect.x, entity.y - entity.hitbox_y/2 - 10, bar_width*entity_health_percent, bar_height))
+
+
+    def draw_gun_ammo(self, current_weapon: Weapon):
+        for i in range(current_weapon.current_magazine):
+            ammo = pygame.Rect(self.x - 20 - i*20, self.y - 50, 10, 30)
+            pygame.draw.rect(self.screen, Color.black, ammo)
