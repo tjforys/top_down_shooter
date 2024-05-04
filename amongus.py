@@ -9,7 +9,7 @@ from objects.bullet import Bullet
 from objects.gif_background import BackgroundGIF
 from objects.player import Player
 from objects.screen import Screen
-from objects.enemy import Enemy, Pasterz
+from objects.enemy import Enemy
 from objects.weapon import Glock
 from objects.weapon import Shotgun
 
@@ -38,11 +38,9 @@ def main():
     player = Player(x=250, y=250, radius=10, speed=1, hitbox_x=40, hitbox_y=52, max_hp=10)
 
     weapon_counter = 0
-    primary = Shotgun()
-    secondary = Glock()
-    weapon_list = [primary, secondary]
-    cursor_list = [Cursor(FilePaths.png_shotgun_cursor), Cursor(FilePaths.png_glock_cursor)]
-    weapon = primary
+    weapon_list = [Shotgun(), Glock()]
+    weapon = weapon_list[0]
+    cursor_list = [Cursor(FilePaths.png_glock_cursor), Cursor(FilePaths.png_shotgun_cursor)]
 
     bullets: List[Bullet] = []
     enemy_bullets: List[Bullet] = []
@@ -67,7 +65,7 @@ def main():
                     weapon.shotCD = False
 
                 if not weapon.reloading:
-                    if not weapon.shotCD: 
+                    if not weapon.shotCD:
                         if UserOptions.game_sounds:
                             amongus_sfx.play()
                         bullets = weapon.shoot(pos_x=player.x, pos_y=player.y, dest_x=mouse_x, dest_y=mouse_y, bullet_list=bullets)
@@ -78,7 +76,7 @@ def main():
 
                 if event.key == pygame.K_z:
                     if UserOptions.game_sounds:
-                        Music(FilePaths.mp3_change_weapon, volume= 0.3).play()
+                        Music(FilePaths.mp3_change_weapon, volume=0.3).play()
                     weapon_counter += 1
                     weapon = weapon_list[weapon_counter % len(weapon_list)]
                     cursor = cursor_list[weapon_counter % len(cursor_list)]
@@ -104,6 +102,7 @@ def main():
             EnemyUtils.play_enemy_sounds(enemies=enemies)
 
         screen.draw_everything(player=player,
+                               weapon=weapon,
                                enemies=enemies,
                                bullets=bullets,
                                background_gif=background_gif,
