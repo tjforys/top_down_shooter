@@ -63,8 +63,8 @@ class Player:
 
         self.x, self.y = Movement.put_back_in_arena_if_outside(area_x, area_y, self.x, self.y)
 
-    def take_damage(self):
+    def take_damage(self, amount: float = 1):
         if time.time() - self.i_frame_time > self.i_frames:
-            self.health -= 1
+            self.health -= amount
             self.i_frame_time = time.time()
             
