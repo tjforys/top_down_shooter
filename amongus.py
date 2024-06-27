@@ -35,7 +35,7 @@ def main():
     screen = Screen(screen_x=800, screen_y=800)
     background_gif = BackgroundGIF(gif_frames_folder=FilePaths.gif_monday_2, draw_frequency_in_ms=75, res_x=screen.x, res_y=screen.y)
     cursor = Cursor(FilePaths.png_shotgun_cursor)
-    player = Player(x=250, y=250, radius=10, speed=1, hitbox_x=40, hitbox_y=52, max_hp=10)
+    player = Player(x=400, y=400, radius=10, speed=1, hitbox_x=40, hitbox_y=52, max_hp=10)
 
     weapon_counter = 0
     weapon_list = [Shotgun(), Glock(), AR15()]
@@ -92,7 +92,8 @@ def main():
         hit_bullets = BulletUtils.get_hit_bullets(bullets=bullets, enemies=enemies)
         bullets = BulletUtils.delete_hit_bullets(bullets, hit_bullets)
 
-        enemies = EnemyUtils.handle_enemies(enemies=enemies, bullets=hit_bullets, player=player)
+        enemies = EnemyUtils.manage_enemy_collision(screen=screen, player=player, enemies=enemies)
+        enemies = EnemyUtils.handle_enemies(screen=screen, enemies=enemies, bullets=hit_bullets, player=player)
 
         # Draw a solid blue circle in the center
         if UserOptions.game_sounds:
@@ -112,8 +113,7 @@ def main():
             enemy_spawn_location_list=enemy_spawn_location_list,
             enemy_spawn_time=enemy_spawn_time,
             enemies=enemies)
-        
-        PlayerUtils.manage_enemy_collision(player=player, enemies=enemies)
+
         enemy_bullets = PlayerUtils.manage_enemy_bullets_collistion(player=player, enemy_bullets=enemy_bullets)
         if UserOptions.disable_brain_rot:
             time.sleep(0.005)

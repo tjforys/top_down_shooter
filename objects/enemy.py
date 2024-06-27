@@ -144,4 +144,23 @@ class Pasterz(Enemy):
             enemy_bullet_list.append(Bullet(self.x, self.y, player.x, player.y, speed=0.5, radius=10))
             self.shoot_time = time.time()
         return enemy_bullet_list
+
+
+class Michael(Enemy):
+    def __init__(self, pos_x, pos_y):
+        sprite = pygame.image.load(FilePaths.png_michael).convert_alpha()
+        image_proportions = sprite.get_height() / sprite.get_width()
+        super().__init__(
+            max_hp=3,
+            pos_x=pos_x,
+            pos_y=pos_y,
+            speed=0.8,
+            hitbox_x=40,
+            hitbox_y=40 * image_proportions,
+            music_list=[Music(target_file=FilePaths.mp3_michael, volume=0.2)],
+            musicCD=5
+        )
+        michael = pygame.transform.scale(sprite, (self.hitbox_x, self.hitbox_y))
+        self.sprite = michael
+        self.was_seen = False
         
