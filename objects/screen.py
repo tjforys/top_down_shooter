@@ -120,13 +120,13 @@ class Screen:
             pygame.draw.rect(self.screen, (0, 255, 0), pygame.Rect(enemy.x - enemy.hitbox_x / 2, enemy.y - enemy.hitbox_y / 2, enemy.hitbox_x, enemy.hitbox_y))
 
 
-    def draw_hp_bars(self, player: Player, enemies: List[Enemy]):  # funkcja do poprawy jak ujednolicimy koordynaty
+    def draw_hp_bars(self, player: Player, enemies: List[Enemy]):
         self.draw_health_bar(player)
         for enemy in enemies:
             self.draw_health_bar(enemy)
 
 
-    def draw_health_bar(self, entity):  # aktualnie dziala tylko na gracza bo rozne zapisywanie koordynatow
+    def draw_health_bar(self, entity):
         bar_width = 60
         bar_height = 5
         bar_rect = pygame.Rect(entity.x - bar_width/2, entity.y - entity.hitbox_y/2 - 10, bar_width, bar_height)
